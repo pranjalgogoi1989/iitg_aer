@@ -28,6 +28,7 @@ $whatsapp = "";
 $organization = "";
 $designation = "";
 $next_venture = "";
+$por="";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_validate($_POST['csrf_token']);
@@ -54,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $organization = trim($_POST['organization']);
     $designation = trim($_POST['designation']);
     $next_venture = trim($_POST['next_venture']);
+    $por = trim($_POST['por']);
     $terms = trim($_POST['terms']);
 
     if (empty($salutation)) {
@@ -132,8 +134,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $stmt1=$pdo->prepare("insert into email_verification(email,verification_code) values(?,?)");
       $stmt1->execute([$alt_email,$secureCode]);
   
-      $stmt2=$pdo->prepare("INSERT INTO students(roll_no,salutation,first_name,last_name,iitg_email,alt_email,country_code,mobile_number,department,programme,joining_year,graduation_year,hostel,country,state,city,address,pincode,linkedin,whatsapp,organization,designation,next_venture,passport_photo,transcript,certificate,email_verified,application_status) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-      $stmt2->execute([$roll_number,$salutation,$first_name,$last_name,$iitg_email,$alt_email,$country_code,$mobile_number,$department,$programme,$year_of_joining,$graduation_year,$hostel,$country,$state,$city,$address,$pincode,$linkedin,$whatsapp,$organization,$designation,$next_venture,'','','','pending','not submitted']);
+      $stmt2=$pdo->prepare("INSERT INTO students(roll_no,salutation,first_name,last_name,iitg_email,alt_email,country_code,mobile_number,department,programme,joining_year,graduation_year,hostel,country,state,city,address,pincode,linkedin,whatsapp,organization,designation,next_venture,passport_photo,transcript,certificate,email_verified,por,application_status) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $stmt2->execute([$roll_number,$salutation,$first_name,$last_name,$iitg_email,$alt_email,$country_code,$mobile_number,$department,$programme,$year_of_joining,$graduation_year,$hostel,$country,$state,$city,$address,$pincode,$linkedin,$whatsapp,$organization,$designation,$next_venture,'','','','pending',$por,'not submitted']);
   
       $result = sendHTMLMail($alt_email,$first_name,$successMessage,'templates/registration.html',['name' => $first_name,'email'=> $alt_email,'password'=> $uid]);
       $result1 = sendHTMLMail($alt_email,$first_name,'Email Verification','templates/email_verification.html',['name' => $first_name,'email'=> $alt_email,'code' => $secureCode]);
@@ -403,14 +405,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-6">
+                  <div class="col-sm-4">
                     <label for="linkedin">LinkedIn Profile Address</label>
                     <input type="text" name="linkedin" id="linkedin" class="form-control" value="<?= $linkedin ?>">
                   </div>
-                  <div class="col-sm-6">
+                  <div class="col-sm-4">
                     <label for="whatsapp">Whatsapp <span class="text-danger">*</span></label>
                     <input type="text" name="whatsapp" id="whatsapp" class="form-control" value="<?= $whatsapp ?>">
                   </div>
+                  <div class="col-sm-4">
+                    <label for="whatsapp">Were you associated with any group (IITG Board/Club/HMC/Student Body)? If yes, write your Position of Responsibility (POR)</label>
+                    <textarea name="por" id="por" rows="2" class="form-control"><?=$por?></textarea>
+                  </div>
+
                 </div>
                 <div class="row">
                   <div class="col-sm-6">

@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     id="username"
                     name="username"
                     placeholder="Enter your username"
-                    value="biswajit"
+                    value="pranjal.gogoi983@gmail.com"
                     autofocus
                   />
                 </div>
