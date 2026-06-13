@@ -3,6 +3,12 @@ require_once __DIR__ . '/../middleware/auth.php';
 requireRole('student');
 $title='Dashboard';
 require_once 'header.php';
+
+require_once __DIR__ . '/../config/config.php';
+$user_name= $_SESSION['email'];
+$stmt=$pdo->prepare('select * from students where alt_email=?');
+$stmt->execute([$user_name]);
+$row = $stmt->fetch();
 ?>
 
 
@@ -17,7 +23,17 @@ require_once 'header.php';
                 <p class="mb-4">
                     Welcome to IITG Alumni Registration Portal. 
                 </p>
-
+                <p>
+                    <?php
+                        $status = $row['application_status'];
+                        if($status == 'Applied'){
+                            echo '<span class="badge bg-label-success me-1">Application submitted successfully</span>';
+                        }
+                        else if($status == 'Rejected'){
+                            echo '<span class="badge bg-label-danger me-1">Application Rejected</span>';
+                        }
+                    ?>
+                </p>
                 <a href="/student/profile.php" class="btn btn-sm btn-outline-primary">View My Profile</a>
                 </div>
             </div>

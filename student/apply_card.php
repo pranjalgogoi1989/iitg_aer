@@ -18,10 +18,17 @@ $stmt = $pdo->prepare("select * from students where alt_email=?");
 $stmt->execute([$user_name]);
 $student = $stmt->fetch();
 
+$successMessage='';
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_validate($_POST['csrf_token']);
-
+    $stmt = $pdo->prepare("update students set application_status='Applied' where roll_no=?");
+    $stmt->execute([$student['roll_no']]);
+    $successMessage = "Application submitted successfully";
 }
+
+$stmt = $pdo->prepare("select * from students where alt_email=?");
+$stmt->execute([$user_name]);
+$student = $stmt->fetch();
 ?>
 
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -32,7 +39,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="col-sm-12">
                         <div class="card-body">
                             <h5 class="card-title text-primary text-center">Apply for Alumni Card</h5>
-                            
+                            <center>
+                                <?php
+                                    if($successMessage!='') {
+                                        echo '<div class="alert alert-success">'.$successMessage.'</div>';
+                                    }
+                                ?>
+                            </center>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label for="">Roll Number </label> : <strong><?=$student['roll_no']?></strong>
@@ -102,7 +115,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <label for="">House/Building Number, Street Name and Locality/Area </label> : <strong><?=$student['address']?></strong>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="">Were you associated with any group (IITG Board/Club/HMC/Student Body)? If yes, write your POsition of Responsibility (POR) </label> : <strong><?=$student['por']?> </strong>
+                                    <label for="">Were you associated with any group (IITG Board/Club/HMC/Student Body)? If yes, write your Position of Responsibility (POR) </label> : <strong><?=$student['por']?> </strong>
                                 </div>
                             </div>
                             <div class="row">
@@ -121,9 +134,23 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <label for="">Details of your next venture or destination (if known) </label> : <strong><?=$student['next_venture']?></strong>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="">Photo</label> : <strong><?=$student['photo'] ? 'Uploaded':'Not Uploaded'?></strong>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">Transcript</label> : <strong><?=$student['transcript'] ? 'Uploaded':'Not Uploaded'?></strong>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">Certificate</label> : <strong><?=$student['certificate'] ? 'Uploaded':'Not Uploaded'?></strong>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="">Payment Receipt</label> : <strong><?=$student['receipt'] ? 'Uploaded':'Not Uploaded'?></strong>
+                                </div>
+                            </div>
 
                             <p class="mb-4">
-                            <span class="fw-bold">Email Verification Status:</span> <?=$student['email_verified'] ?>
+                            <label>Email Verification Status:</label> <strong><?=$student['email_verified'] ?></strong>
                             <?php
                                 $status = $student['email_verified'];
                                 if($status != 'Verified'){
@@ -132,6 +159,34 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
                             ?>
                             </p>
+                            <?php
+                                if($student['email_verified'] == 'Verified' && $student['photo']!=null && $student['transcript']!=null && $student['certificate'] != null && $student['application_status'] != 'Applied' && $student['application_status']!='Rejected'){
+                            ?>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <center>
+                                            <form action="" method="post">
+                                                <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
+                                                <input type="submit" name="submit" class="btn btn-primary" value="Apply for Card">
+                                            </form>
+                                        </center>
+                                    </div>
+                                </div>
+
+                            <?php
+                                }
+                                if($student['application_status'] == 'Applied'){
+                            ?>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <center>
+                                            <div class="alert alert-success">Your Application is Under Process</div>
+                                        </center>
+                                    </div>
+                                </div>
+                            <?php
+                                }
+                            ?>
                         </div>
                     </div>
                     

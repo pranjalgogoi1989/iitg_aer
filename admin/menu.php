@@ -19,13 +19,8 @@
             <i class="menu-icon tf-icons bx bx-layout"></i><div data-i18n="Layouts">Administration</div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item"><a href="/admin/work_master.php" class="menu-link"><div data-i18n="Blank">Work Master</div></a></li>
-            <li class="menu-item"><a href="/admin/roles.php" class="menu-link"><div data-i18n="Blank">Roles</div></a></li>
             <li class="menu-item"><a href="/admin/users.php" class="menu-link"><div data-i18n="Blank">Users</div></a></li>
-            <li class="menu-item"><a href="/admin/engineers.php" class="menu-link"><div data-i18n="Blank">Engineers</div></a></li>
-            <li class="menu-item"><a href="/admin/sectors.php" class="menu-link"><div data-i18n="Blank">Sector</div></a></li>
-            <li class="menu-item"><a href="/admin/departments.php" class="menu-link"><div data-i18n="Blank">Department</div></a></li>
-            <li class="menu-item"><a href="/admin/work_types.php" class="menu-link"><div data-i18n="Blank">Work Types</div></a></li>
+            <li class="menu-item"><a href="/admin/smtp.php" class="menu-link"><div data-i18n="Blank">SMTP</div></a></li>
         </ul>
     </li>
     

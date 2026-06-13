@@ -15,7 +15,7 @@ require_once 'header.php';
                 <div class="card-body">
                 <h5 class="card-title text-primary">Admin Dashboard</h5>
                 <p class="mb-4">
-                    Welcome to IPM Work Management Portal. 
+                    Welcome to IITG Alumni Registration Portal. 
                 </p>
                 
                 

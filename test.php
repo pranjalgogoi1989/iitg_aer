@@ -1,1 +1,12 @@
-INSERT INTO students(roll_no,salutation,first_name,last_name,iitg_email,alt_email,country_code,mobile_number,department,programme,joining_year,graduation_year,hostel,country,state,city,adress,pincode,linkedin,whatsapp,organization,designation,next_venture,passport_photo,transcript,certificate,email_verified,application_status) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+<?php
+$title='Dashboard';
+require_once __DIR__ . '/config/config.php';
+
+$email="admin@gmail.com";
+$name="Admin";
+$role="admin";
+$password="12345678";
+$stmt = $pdo->prepare("insert into users(email,name,role,password) values(?,?,?,?)");
+$stmt->execute([$email,$name,$role,password_hash($password, PASSWORD_DEFAULT)]);
+exit();
+?>
