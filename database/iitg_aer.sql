@@ -17,6 +17,34 @@
 /*M!100616 SET @OLD_NOTE_VERBOSITY=@@NOTE_VERBOSITY, NOTE_VERBOSITY=0 */;
 
 --
+-- Table structure for table `accepted_applications`
+--
+
+DROP TABLE IF EXISTS `accepted_applications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `accepted_applications` (
+  `roll_no` varchar(20) NOT NULL,
+  `remarks` varchar(200) DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`roll_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accepted_applications`
+--
+
+LOCK TABLES `accepted_applications` WRITE;
+/*!40000 ALTER TABLE `accepted_applications` DISABLE KEYS */;
+INSERT INTO `accepted_applications` VALUES
+('1234567890','aa','generated','2026-06-14 21:00:10','2026-06-14 21:19:41');
+/*!40000 ALTER TABLE `accepted_applications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `countries`
 --
 
@@ -354,7 +382,7 @@ CREATE TABLE `email_verification` (
 LOCK TABLES `email_verification` WRITE;
 /*!40000 ALTER TABLE `email_verification` DISABLE KEYS */;
 INSERT INTO `email_verification` VALUES
-(1,'pranjal.gogoi983@gmail.com','334486','2026-06-09 20:58:27','2026-06-09 20:58:27');
+(1,'pranjal.gogoi983@gmail.com','465809','2026-06-09 20:58:27','2026-06-12 20:30:44');
 /*!40000 ALTER TABLE `email_verification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -472,6 +500,38 @@ LOCK TABLES `roles` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `smtp_details`
+--
+
+DROP TABLE IF EXISTS `smtp_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `smtp_details` (
+  `email` varchar(50) NOT NULL,
+  `host` varchar(45) NOT NULL,
+  `port` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `from` varchar(45) NOT NULL,
+  `mail_name` varchar(45) NOT NULL,
+  `smtp_secure` varchar(45) NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `smtp_details`
+--
+
+LOCK TABLES `smtp_details` WRITE;
+/*!40000 ALTER TABLE `smtp_details` DISABLE KEYS */;
+INSERT INTO `smtp_details` VALUES
+('pranjal.gogoi983@gmail.com','smtp.gmail.com','587','afnc wfvs tcup eviz','pranjal.gogoi983@gmail.com','IITG Alumni Registration Portal','tls','2026-06-13 20:37:56','2026-06-13 20:38:56');
+/*!40000 ALTER TABLE `smtp_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `students`
 --
 
@@ -500,12 +560,14 @@ CREATE TABLE `students` (
   `pincode` varchar(45) DEFAULT NULL,
   `linkedin` varchar(45) DEFAULT NULL,
   `whatsapp` varchar(45) DEFAULT NULL,
+  `por` varchar(200) DEFAULT NULL,
   `organization` varchar(45) DEFAULT NULL,
   `designation` varchar(45) DEFAULT NULL,
   `next_venture` varchar(200) DEFAULT NULL,
-  `passport_photo` varchar(100) DEFAULT NULL,
+  `photo` varchar(100) DEFAULT NULL,
   `transcript` varchar(100) DEFAULT NULL,
   `certificate` varchar(100) DEFAULT NULL,
+  `receipt` varchar(100) DEFAULT NULL,
   `email_verified` varchar(45) DEFAULT NULL,
   `application_status` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
@@ -521,7 +583,7 @@ CREATE TABLE `students` (
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
 INSERT INTO `students` VALUES
-(1,'1234567890','Mr','Pranjal','Gogoi','pranjal.gogoi983@gmail.com','pranjal.gogoi983@gmail.com','1','9401389359','Biotechnology','M.Sc','2022','2025','Barak','Albania','Assam','Naharkatia',NULL,'786610','','1234567789','','','','','','','pending','not submitted','2026-06-09 20:58:27','2026-06-09 20:58:27');
+(1,'1234567890','Mr','Pranjal','Gogoi','pranjal.gogoi983@gmail.com','pranjal.gogoi983@gmail.com','1','9401389359','Biotechnology','M.Sc','2022','2025','Barak','Albania','Assam','Naharkatia',NULL,'786610','','1234567789',NULL,'','','','/uploads/1234567890/photo.jpg','/uploads/1234567890/transcript.pdf','/uploads/1234567890/certificate.pdf','/uploads/1234567890/receipt.pdf','Verified','Applied','2026-06-09 20:58:27','2026-06-14 20:59:59');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -544,7 +606,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -554,7 +616,9 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
-(1,'Pranjal','pranjal.gogoi983@gmail.com','$2y$10$QWhay61dudSkOV0P9pAy6e0IM3FhSulkz3cdYVkMiHEpiT0XiQ09S','student',0,NULL,'2026-06-09 20:58:27','2026-06-09 20:58:27');
+(1,'Pranjal','pranjal.gogoi983@gmail.com','$2y$10$wmJglgNZzkJPkIIQ5vBmJeXcLUig2k6XsoYVDCvJRiLKx6GqlwYUO','student',0,NULL,'2026-06-09 20:58:27','2026-06-10 17:51:22'),
+(3,NULL,NULL,'$2y$10$/tPPLFxDIKId.XeGxai6jecYU5hOk0vZPSlfCRC3vYuXSRMj9rn.O','admin',0,NULL,'2026-06-13 20:04:47','2026-06-13 20:04:47'),
+(4,'Admin','admin@gmail.com','$2y$10$gFf2uvGNWeo6Ow6vqz7Gn.5Q4PtcTWq8h1Q46VQkN0sBepkdTatSm','admin',0,NULL,'2026-06-13 20:05:06','2026-06-13 20:05:06');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -567,4 +631,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-06-10  2:47:17
+-- Dump completed on 2026-06-15  2:58:20

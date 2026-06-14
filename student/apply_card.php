@@ -160,7 +160,7 @@ $student = $stmt->fetch();
                             ?>
                             </p>
                             <?php
-                                if($student['email_verified'] == 'Verified' && $student['photo']!=null && $student['transcript']!=null && $student['certificate'] != null && $student['application_status'] != 'Applied' && $student['application_status']!='Rejected'){
+                                if($student['email_verified'] == 'Verified' && $student['photo']!=null && $student['transcript']!=null && $student['certificate'] != null && $student['application_status'] != 'Applied'){
                             ?>
                                 <div class="row">
                                     <div class="col-sm-12">

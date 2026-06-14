@@ -126,13 +126,10 @@ function verifyOTP() {
                         <div class="card-body">
                             <h5 class="card-title text-primary text-center">My Profile</h5>
                             <p class="mb-4">
-                            <span class="fw-bold">Name:</span><?=$row['name'] ?>
+                            <span class="fw-bold">Name:</span> <?=$student['salutation']." ". $student['first_name']." ".$student['last_name'] ?>
                             </p>
                             <p class="mb-4">
                             <span class="fw-bold">Email:</span> <?=$row['email'] ?>
-                            </p>
-                            <p class="mb-4">
-                            <span class="fw-bold">Role:</span> <?=$row['role'] ?>
                             </p>
                             <p class="mb-4">
                             <span class="fw-bold">Email Verification Status:</span> <?=$student['email_verified'] ?>
@@ -151,6 +148,19 @@ function verifyOTP() {
                                 }
                             ?>
                             
+
+                            <?php
+                                $stmtls = $pdo->prepare("select * from accepted_applications where roll_no=?");
+                                $stmtls->execute([$student['roll_no']]);
+                                $ls = $stmtls->fetch();
+                                if($ls){
+                                    if($ls['status']=='generated'){
+                                        echo '<p class="mb-4">
+                                        <span class="fw-bold">Alumni Card Status:</span> <a href="downloadCard.php" class="btn btn-primary">Download</a>
+                                        </p>';
+                                    }
+                                }
+                            ?>
                         </div>
                     </div>
                     

@@ -8,32 +8,47 @@ require_once __DIR__ . '/../config/config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
 
 function sendHTMLMail(
     $toEmail,
     $toName,
     $subject,
     $templateFile,
-    $templateData = [],
+    $templateData = []
 ) {
-    $mail = new PHPMailer(true);
-    try {
+    global $pdo;
 
-        $stmt = $pdo->prepare("SELECT * FROM smtp_details");
+    $mail = new PHPMailer(true);
+
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM smtp_details LIMIT 1");
         $stmt->execute();
         $smtp = $stmt->fetch();
 
-        $smtpHost= $smtp[0]['host'];
-        $smtpPort= $smtp[0]['port'];
-        $smtpUsername= $smtp[0]['email'];
-        $smtpPassword= $smtp[0]['password'];
-        $fromEmail= $smtp[0]['from'];
-        $fromName= $smtp[0]['mail_name'];
-        $smtpSecure = $smtp[0]['smtp_secure'];;
-        $html = file_get_contents( __DIR__ .'/'. $templateFile);
+        if (!$smtp) {
+            throw new \RuntimeException('SMTP details not found');
+        }
+
+        $smtpHost = $smtp['host'];
+        $smtpPort = (int) $smtp['port'];
+        $smtpUsername = $smtp['email'];
+        $smtpPassword = $smtp['password'];
+        $fromEmail = $smtp['from'];
+        $fromName = $smtp['mail_name'];
+        $smtpSecure = $smtp['smtp_secure'];
+
+        $templatePath = __DIR__ . '/' . ltrim($templateFile, '/');
+        if (!is_file($templatePath)) {
+            throw new \RuntimeException('Mail template not found: ' . $templateFile);
+        }
+
+        $html = file_get_contents($templatePath);
+        if ($html === false) {
+            throw new \RuntimeException('Unable to read mail template: ' . $templateFile);
+        }
+
         foreach ($templateData as $key => $value) {
-            $html = str_replace('{{'.$key.'}}', $value, $html);
+            $html = str_replace('{{' . $key . '}}', (string) $value, $html);
         }
 
         // SMTP Config
@@ -61,12 +76,10 @@ function sendHTMLMail(
             'message' => 'Mail Sent Successfully'
         ];
 
-    } catch (Exception $e) {
+    } catch (\Throwable $e) {
         return [
             'status' => false,
-            'message' => $mail->ErrorInfo
+            'message' => $mail->ErrorInfo ?: $e->getMessage()
         ];
     }
 }
-?>
-

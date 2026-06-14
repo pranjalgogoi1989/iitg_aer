@@ -10,3 +10,4 @@ $stmt = $pdo->prepare("insert into users(email,name,role,password) values(?,?,?,
 $stmt->execute([$email,$name,$role,password_hash($password, PASSWORD_DEFAULT)]);
 exit();
 ?>
+
