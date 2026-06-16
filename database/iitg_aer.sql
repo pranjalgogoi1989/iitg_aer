@@ -81,7 +81,6 @@ CREATE TABLE `applications` (
   `transcript` varchar(100) DEFAULT NULL,
   `certificate` varchar(100) DEFAULT NULL,
   `receipt` varchar(100) DEFAULT NULL,
-  `email_verified` varchar(45) DEFAULT NULL,
   `application_status` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -96,7 +95,7 @@ CREATE TABLE `applications` (
 LOCK TABLES `applications` WRITE;
 /*!40000 ALTER TABLE `applications` DISABLE KEYS */;
 INSERT INTO `applications` VALUES
-(1,'230101001','Mr','Anjan','Baruah','pranjal1989@iitg.ac.in','anjanbaruah97@gmail.com','91','9401389359','Jyoti and Bhupat Mehta School of Health Sciences & Technology','B.Tech','2023','2026','Lohit','India','Assam','Naharkatia','house no 4','786610','www.linkedin.in/anjabaruah97','8876952298','NA','IITG','Junior Assistant',NULL,'/uploads/230101001/photo.jpg','/uploads/230101001/transcript.pdf','/uploads/230101001/certificate.pdf','/uploads/230101001/receipt.pdf',NULL,NULL,'2026-06-16 05:52:18','2026-06-16 06:30:31');
+(1,'230101001','Mr','Anjan','Baruah','pranjal1989@iitg.ac.in','anjanbaruah97@gmail.com','91','9401389359','Jyoti and Bhupat Mehta School of Health Sciences & Technology','B.Tech','2023','2026','Lohit','India','Assam','Naharkatia','house no 4','786610','www.linkedin.in/anjabaruah97','8876952298','NA','IITG','Junior Assistant',NULL,'/uploads/230101001/photo.jpg','/uploads/230101001/transcript.pdf','/uploads/230101001/certificate.pdf','/uploads/230101001/receipt.pdf','Submitted','2026-06-16 05:52:18','2026-06-16 07:26:16');
 /*!40000 ALTER TABLE `applications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -625,7 +624,7 @@ CREATE TABLE `students` (
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
 INSERT INTO `students` VALUES
-(1,'Mr','Pranjal','Gogoi','pranjal.gogoi983@gmail.com','1','9401389359','Albania','Assam','Naharkatia',NULL,'786610','','1234567789','/uploads/1234567890/photo.jpg','pending','2026-06-09 20:58:27','2026-06-16 03:19:39'),
+(1,'Mr','Pranjal','Gogoi','pranjal.gogoi983@gmail.com','91','9401389359','India','Assam','Naharkatia','house no 4','786610','','1234567789','/uploads/1234567890/photo.jpg','Verified','2026-06-09 20:58:27','2026-06-16 07:48:52'),
 (2,'Mr','Anjan','Baruah','anjanbaruah97@gmail.com','91','9401389359','India','Assam','Naharkatia','house no 4','786610','https://www.linkedin.com/pranjalgogoi1989','9401389359','/uploads/photo/2.jpg','Verified','2026-06-15 18:46:37','2026-06-16 04:01:41');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -675,4 +674,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-06-16 12:40:06
+-- Dump completed on 2026-06-16 13:22:01
