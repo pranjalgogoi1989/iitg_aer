@@ -31,6 +31,12 @@
             <div data-i18n="Analytics">Apply for Alumni Card</div>
         </a>
     </li>
+    <li class="menu-item <?= isActive('my_applications.php') ?>">
+        <a href="/student/my_applications.php" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">My Applications</div>
+        </a>
+    </li>
     <li class="menu-item <?= isActive('change_password.php') ?>">
         <a href="/student/change_password.php" class="menu-link">
             <i class="bx bx-power-off me-2"></i>

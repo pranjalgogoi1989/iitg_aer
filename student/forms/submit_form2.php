@@ -4,9 +4,9 @@ requireRole('student');
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../security/csrf.php';
 
-$user_name= $_SESSION['email'];
-$stmt=$pdo->prepare('select * from applications where alt_email=? limit 1');
-$stmt->execute([$user_name]);
+$application_id= $_POST['application_id'];
+$stmt=$pdo->prepare('select * from applications where roll_no=? limit 1');
+$stmt->execute([$application_id]);
 $student = $stmt->fetch();
 
 $upload_files=array('transcript','certificate','receipt');

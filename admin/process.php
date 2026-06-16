@@ -20,6 +20,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['approve'])) {
         $stmt = $pdo->prepare("INSERT INTO accepted_applications (roll_no, remarks) VALUES (?, ?) ON DUPLICATE KEY UPDATE remarks = ?");
         $stmt->execute([$roll_no, $remarks, $remarks]);
+        $stmt = $pdo->prepare("update applications set application_status='Approved' where roll_no=?");
+        $stmt->execute([$roll_no]);
         $result1 = sendHTMLMail($student['alt_email'],$student['first_name'],'Alumni Card Approved','templates/card_ready.html',['name' => $student['first_name']]);
     }
     if (isset($_POST['reject'])) {

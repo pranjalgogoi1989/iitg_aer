@@ -4,9 +4,9 @@ requireRole('student');
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../security/csrf.php';
 
-$user_name= $_SESSION['email'];
-$stmt=$pdo->prepare('select * from applications where alt_email=? limit 1');
-$stmt->execute([$user_name]);
+$application_id= $_POST['application_id2'];
+$stmt=$pdo->prepare('select * from applications where roll_no=? limit 1');
+$stmt->execute([$application_id]);
 $student = $stmt->fetch();
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,8 +16,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Please agree to terms and conditions";
     }
     if(empty($errors)) {
-        $stmt=$pdo->prepare("update applications set application_status='Submitted' where alt_email=?");
-        $stmt->execute([$user_name]);
+        $stmt=$pdo->prepare("update applications set application_status='Submitted' where roll_no=?");
+        $stmt->execute([$application_id]);
         echo json_encode([
             'status' => 'success',
             'application_id' => $student["roll_no"]

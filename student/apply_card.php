@@ -70,6 +70,7 @@ if(empty($student)){
                         <div class="tab-pane fade show active" id="step1">
                             <form id="step1Form">
                                 <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
+
                                 <?php include('forms/form1.php'); ?>
                                 <br>
                                 <center>
@@ -81,12 +82,14 @@ if(empty($student)){
                         <div class="tab-pane fade" id="step2">
                             <form id="step2Form" enctype="multipart/form-data">
                                 <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
+                                <input type="hidden" name="application_id" id="application_id" value="">
                                 <?php include('forms/upload_form.php'); ?>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="step3">
                             <form id="step3Form">
                                 <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
+                                <input type="hidden" name="application_id2" id="application_id2" value="">
                             <?php include('forms/preview.php'); ?>
 
                             <br>
@@ -117,6 +120,7 @@ document.getElementById("step1Form").addEventListener("submit", function(e){
     .then(data => {
         if(data.status === "success"){
             document.getElementById("step2-tab").removeAttribute("disabled");
+            document.getElementById("application_id").value = data.application_id;
             document.getElementById("step1-tab").innerHTML ='✓ Step 1 - Basic Details';
             bootstrap.Tab.getOrCreateInstance(document.getElementById('step2-tab')).show();
         }else{
@@ -135,6 +139,7 @@ document.getElementById("step2Form").addEventListener("submit", function(e){
     .then(data => {
         if(data.status === "success"){
             document.getElementById("step3-tab").removeAttribute("disabled");
+            document.getElementById("application_id2").value = data.application_id;
             document.getElementById("step2-tab").innerHTML ='✓ Step 2 - Documents Upload';
             bootstrap.Tab.getOrCreateInstance(document.getElementById('step3-tab')).show();
         }else{

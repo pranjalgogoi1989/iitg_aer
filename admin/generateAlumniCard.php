@@ -46,18 +46,34 @@ function generateAlumniCard($studentId, $pdo)
         $pdf->StopTransform();
     }
     $pdf->SetFont('times','',7.5);
-    $pdf->SetXY(50.0,23.1);
+    $pdf->SetXY(47.0,23.1);
     $pdf->Cell(30,4,trim($student['first_name'].' '.$student['last_name']));
-    $pdf->SetXY(50.0,27);
+    $pdf->SetXY(47.0,27);
     $pdf->Cell(30,4,$student['roll_no']);
-    $pdf->SetXY(50.0,30.9);
+    $pdf->SetXY(47.0,30.9);
     $pdf->Cell(25,4,$student['programme']);
-    $pdf->SetXY(50.0,34.7);
-    $pdf->MultiCell(28,3.5,$student['department']);
-    $pdf->SetXY(50.0,38.3);
-    $pdf->Cell(15,4,$student['graduation_year']);
+
+    $string_length = strlen(trim($student['department']));
+    if($string_length>28){
+        $pdf->SetXY(47.0,34.7);
+        $pdf->Cell(28,3.5,trim(substr($student['department'],0,28)));
+        $pdf->SetXY(47.0,38.3);
+        $pdf->Cell(28,4,trim(substr($student['department'],29)));
+
+        $pdf->SetXY(47.0,38.3);
+        $pdf->Cell(15,4,$student['graduation_year']);
+    }else{
+        $pdf->SetXY(47.0,34.7);
+        $pdf->Cell(28,3.5,trim($student['department']));
+        $pdf->SetXY(47.0,38.3);
+        $pdf->Cell(15,4,$student['graduation_year']);
+    }
+
     $pdf->SetXY(22.0,49.0);
     $pdf->Cell(18,4,date('d-m-Y'));
+    $sign = alumniCardFilePath('/uploads/dean_sign/sign.jpg');
+    $pdf->SetXY(50.0, 49.0);
+    $pdf->Image($sign,69,42,14,6,'JPG');
     // ===== BACK =====
     $pdf->AddPage();
     $pdf->Image($back,0,0,89,57,'JPG');
