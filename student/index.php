@@ -6,7 +6,7 @@ require_once 'header.php';
 
 require_once __DIR__ . '/../config/config.php';
 $user_name= $_SESSION['email'];
-$stmt=$pdo->prepare('select * from students where alt_email=?');
+$stmt=$pdo->prepare('select * from applications where alt_email=?');
 $stmt->execute([$user_name]);
 $row = $stmt->fetch();
 ?>
@@ -25,8 +25,8 @@ $row = $stmt->fetch();
                 </p>
                 <p>
                     <?php
-                        $status = $row['application_status'];
-                        if($status == 'Applied'){
+                        $status = $row['application_status'] ?? '';
+                        if($status == 'Submitted'){
                             echo '<span class="badge bg-label-success me-1">Application submitted successfully</span>';
                         }
                         else if($status == 'Rejected'){

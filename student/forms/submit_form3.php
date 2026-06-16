@@ -20,7 +20,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$user_name]);
         echo json_encode([
             'status' => 'success',
-            'upload_status' => $uploadStatus,
             'application_id' => $student["roll_no"]
         ]);
     }

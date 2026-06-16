@@ -222,7 +222,7 @@ function verifyOTP() {
                                         $stmt->execute();
                                         $country_codes = $stmt->fetchAll();
                                         foreach($country_codes as $cc){
-                                            if($country_code == $cc["country_code"]){
+                                            if( $cc["country_code"]==$student['country_code']){
                                             echo '<option value="'.$cc["country_code"].'" selected>'.$cc["country_code"].' - ('.$cc["country_name"].')</option>';
                                             }else{
                                             echo '<option value="'.$cc["country_code"].'">'.$cc["country_code"].' - ('.$cc["country_name"].')</option>';
@@ -246,7 +246,7 @@ function verifyOTP() {
                                         $stmt->execute();
                                         $countries = $stmt->fetchAll();
                                         foreach($countries as $cc){
-                                            if($cc["country_name"] == $country){
+                                            if($cc["country_name"] == $student['country']){
                                             echo '<option value="'.$cc["country_name"].'" selected>'.$cc["country_name"].'</option>';
                                             }else{
                                             echo '<option value="'.$cc["country_name"].'">'.$cc["country_name"].'</option>';

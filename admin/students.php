@@ -20,31 +20,27 @@ require_once 'header.php';
                         <table id="example" class="table table-hover table-display" style="width:100%">
                             <thead>
                                 <tr>
-                                    <td>Roll No</td>
+                                    <td>ID</td>
                                     <td>Alt Email</td>
                                     <td>Name</td>
                                     <td>Mobile No</td>
-                                    <td>Department</td>
-                                    <td>Programme</td>
                                     <td>Updated At</td>
                                     <td>Action</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $stmt = $pdo->prepare("SELECT * FROM students order by roll_no asc");
+                                $stmt = $pdo->prepare("SELECT * FROM students order by id asc");
                                 $stmt->execute();
                                 $students = $stmt->fetchAll();
                                 foreach ($students as $stud) {
                                     echo '<tr>';
-                                    echo '<td>' . $stud['roll_no'] . '</td>';
+                                    echo '<td>' . $stud['id'] . '</td>';
                                     echo '<td>' . $stud['alt_email'] . '</td>';
                                     echo '<td>'.$stud['salutation'] .' '. $stud['first_name'] .' '. $stud['last_name'].'</td>';
                                     echo '<td>' . $stud['mobile_number'] . '</td>';
-                                    echo '<td>' . $stud['department'] . '</td>';
-                                    echo '<td>' . $stud['programme'] . '</td>';
                                     echo '<td>' . $stud['updated_at'] . '</td>';
-                                    echo '<td><a href="student.php?id='.$stud['roll_no'].'" class="btn btn-primary">View</a></td>';
+                                    echo '<td><a href="student.php?id='.$stud['id'].'" class="btn btn-primary">View</a></td>';
                                     echo '</tr>';
                                 }
                                 ?>

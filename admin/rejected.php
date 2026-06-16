@@ -33,7 +33,7 @@ require_once 'header.php';
                             </thead>
                             <tbody>
                                 <?php
-                                $stmt = $pdo->prepare("SELECT * FROM students where application_status='Rejected' order by roll_no asc");
+                                $stmt = $pdo->prepare("SELECT * FROM applications where application_status='Rejected' order by roll_no asc");
                                 $stmt->execute();
                                 $students = $stmt->fetchAll();
                                 foreach ($students as $stud) {

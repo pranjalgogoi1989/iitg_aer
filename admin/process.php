@@ -7,7 +7,7 @@ require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../security/csrf.php';
 require_once __DIR__ . '/../mails/master.php';
 $roll_no = $_GET['id'];
-$stmt = $pdo->prepare("select * from students where roll_no=?");
+$stmt = $pdo->prepare("select * from applications where roll_no=?");
 $stmt->execute([$roll_no]);
 $student = $stmt->fetch();
 $processed = false;
@@ -20,12 +20,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['approve'])) {
         $stmt = $pdo->prepare("INSERT INTO accepted_applications (roll_no, remarks) VALUES (?, ?) ON DUPLICATE KEY UPDATE remarks = ?");
         $stmt->execute([$roll_no, $remarks, $remarks]);
-
         $result1 = sendHTMLMail($student['alt_email'],$student['first_name'],'Alumni Card Approved','templates/card_ready.html',['name' => $student['first_name']]);
-
     }
     if (isset($_POST['reject'])) {
-        $stmt = $pdo->prepare("update students set application_status='Rejected' where roll_no=?");
+        $stmt = $pdo->prepare("update applications set application_status='Rejected' where roll_no=?");
         $stmt->execute([$roll_no]);
     }
     $successMessage = "<span class='text-success'>Request Processed Successfully!</span> ";
@@ -151,9 +149,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                             </div>
 
-                            <p class="mb-4">
-                            <label>Email Verification Status:</label> <strong><?=$student['email_verified'] ?></strong>
-                            </p>
+                            
                             <?php
                             if($successMessage=='') {
                             ?>

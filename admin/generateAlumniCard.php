@@ -21,7 +21,7 @@ function generateAlumniCard($studentId, $pdo)
     if (!is_dir($directory)) {
         mkdir($directory, 0777, true);
     }
-    $stmt = $pdo->prepare('SELECT * FROM students WHERE roll_no = ? LIMIT 1');
+    $stmt = $pdo->prepare('SELECT * FROM applications WHERE roll_no = ? LIMIT 1');
     $stmt->execute([$studentId]);
     $student = $stmt->fetch();
     if (!$student) {

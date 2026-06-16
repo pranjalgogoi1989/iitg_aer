@@ -25,9 +25,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $successMessage = "Application submitted successfully";
 }
 
-$stmt = $pdo->prepare("select * from students where alt_email=?");
+$stmt = $pdo->prepare("select * from students where alt_email=? and email_verified='Verified'");
 $stmt->execute([$user_name]);
 $student = $stmt->fetch();
+if(empty($student)){
+    echo '<script>window.location.href="profile.php";</script>';
+}
 ?>
 
 <style>
@@ -59,7 +62,7 @@ $student = $stmt->fetch();
                             <button class="nav-link" id="step2-tab" data-bs-toggle="pill" data-bs-target="#step2" disabled> Step 2 - Documents Upload </button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" id="step3-tab" data-bs-toggle="pill" data-bs-target="#step3" > Step 3 - Preview and Submit  </button>
+                            <button class="nav-link" id="step3-tab" data-bs-toggle="pill" data-bs-target="#step3" disabled> Step 3 - Preview and Submit  </button>
                         </li>
                     </ul>
 
@@ -83,6 +86,7 @@ $student = $stmt->fetch();
                         </div>
                         <div class="tab-pane fade" id="step3">
                             <form id="step3Form">
+                                <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                             <?php include('forms/preview.php'); ?>
 
                             <br>
@@ -150,6 +154,7 @@ document.getElementById("step3Form").addEventListener("submit", function(e){
         if(data.status === "success"){
             document.getElementById("step3-tab").innerHTML ='✓ Step 3 - Preview and Submit';
             alert("Application Submitted successfully");
+            window.location.href='index.php';
         }else{
             alert(data.message);
         }

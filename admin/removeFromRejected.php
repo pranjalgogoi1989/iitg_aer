@@ -6,7 +6,7 @@ require_once __DIR__ . '/../security/csrf.php';
 
 if (isset($_GET['id'])) {
     $studentId = $_GET['id'];
-    $stmt = $pdo->prepare('update students set application_status="Applied" WHERE roll_no = ?');
+    $stmt = $pdo->prepare('update applications set application_status="Applied" WHERE roll_no = ?');
     $stmt->execute([$studentId]);
     header('Location: /admin/rejected.php');
 }
