@@ -40,7 +40,8 @@ CREATE TABLE `accepted_applications` (
 LOCK TABLES `accepted_applications` WRITE;
 /*!40000 ALTER TABLE `accepted_applications` DISABLE KEYS */;
 INSERT INTO `accepted_applications` VALUES
-('1234567890','aa','generated','2026-06-14 21:00:10','2026-06-14 21:19:41');
+('1234567890','aa','generated','2026-06-14 21:00:10','2026-06-14 21:19:41'),
+('230101001','OK','generated','2026-06-16 08:05:56','2026-06-16 08:06:56');
 /*!40000 ALTER TABLE `accepted_applications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,7 +96,7 @@ CREATE TABLE `applications` (
 LOCK TABLES `applications` WRITE;
 /*!40000 ALTER TABLE `applications` DISABLE KEYS */;
 INSERT INTO `applications` VALUES
-(1,'230101001','Mr','Anjan','Baruah','pranjal1989@iitg.ac.in','anjanbaruah97@gmail.com','91','9401389359','Jyoti and Bhupat Mehta School of Health Sciences & Technology','B.Tech','2023','2026','Lohit','India','Assam','Naharkatia','house no 4','786610','www.linkedin.in/anjabaruah97','8876952298','NA','IITG','Junior Assistant',NULL,'/uploads/230101001/photo.jpg','/uploads/230101001/transcript.pdf','/uploads/230101001/certificate.pdf','/uploads/230101001/receipt.pdf','Submitted','2026-06-16 05:52:18','2026-06-16 07:26:16');
+(1,'230101001','Mr','Anjan','Baruah','pranjal1989@iitg.ac.in','anjanbaruah97@gmail.com','91','9401389359','Jyoti and Bhupat Mehta School of Health Sciences & Technology','B.Tech','2023','2026','Lohit','India','Assam','Naharkatia','house no 4','786610','www.linkedin.in/anjabaruah97','8876952298','NA','IITG','Junior Assistant',NULL,'/uploads/230101001/photo.jpg','/uploads/230101001/transcript.pdf','/uploads/230101001/certificate.pdf','/uploads/230101001/receipt.pdf','Approved','2026-06-16 05:52:18','2026-06-16 10:27:55');
 /*!40000 ALTER TABLE `applications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -674,4 +675,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-06-16 13:22:01
+-- Dump completed on 2026-06-16 16:00:11

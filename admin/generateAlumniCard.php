@@ -29,6 +29,7 @@ function generateAlumniCard($studentId, $pdo)
     }
     $template = __DIR__ . '/../docs/front.jpg';
     $back = __DIR__ . '/../docs/back.jpg';
+    
     $pdf = new TCPDF('L','mm',array(57,89),true,'UTF-8',false);
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
@@ -46,29 +47,41 @@ function generateAlumniCard($studentId, $pdo)
         $pdf->StopTransform();
     }
     $pdf->SetFont('times','',7.5);
-    $pdf->SetXY(47.0,23.1);
+    $pdf->SetXY(33.0, 21.1);
+    $pdf->Cell(15,4,'Name:');
+    $pdf->SetXY(47.0,21.1);
     $pdf->Cell(30,4,trim($student['first_name'].' '.$student['last_name']));
-    $pdf->SetXY(47.0,27);
+    $pdf->SetXY(33.0, 24.9);
+    $pdf->Cell(15,4,'Roll No:');
+    $pdf->SetXY(47.0,24.9);
     $pdf->Cell(30,4,$student['roll_no']);
-    $pdf->SetXY(47.0,30.9);
+    $pdf->SetXY(33.0, 28.7);
+    $pdf->Cell(15,4,'Program:');
+    $pdf->SetXY(47.0,28.7);
     $pdf->Cell(25,4,$student['programme']);
 
     $string_length = strlen(trim($student['department']));
     if($string_length>28){
-        $pdf->SetXY(47.0,34.7);
-        $pdf->Cell(28,3.5,trim(substr($student['department'],0,28)));
-        $pdf->SetXY(47.0,38.3);
+        $pdf->SetXY(33.0, 32.4);
+        $pdf->Cell(15,4,'Course:');
+        $pdf->SetXY(47.0,32.4);
+        $pdf->Cell(28,3.5,trim(substr($student['department'],0,29)));
+        $pdf->SetXY(47.0,35);
         $pdf->Cell(28,4,trim(substr($student['department'],29)));
-
+        $pdf->SetXY(33.0, 38.3);
+        $pdf->MultiCell(15,4,'Graduating: Year');
         $pdf->SetXY(47.0,38.3);
         $pdf->Cell(15,4,$student['graduation_year']);
     }else{
-        $pdf->SetXY(47.0,34.7);
+        $pdf->SetXY(33.0, 32.4);
+        $pdf->Cell(15,4,'Course:');
+        $pdf->SetXY(47.0,32.4);
         $pdf->Cell(28,3.5,trim($student['department']));
-        $pdf->SetXY(47.0,38.3);
+        $pdf->SetXY(33.0, 36.0);
+        $pdf->MultiCell(15,4,'Graduating: Year');
+        $pdf->SetXY(47.0,36.0);
         $pdf->Cell(15,4,$student['graduation_year']);
     }
-
     $pdf->SetXY(22.0,49.0);
     $pdf->Cell(18,4,date('d-m-Y'));
     $sign = alumniCardFilePath('/uploads/dean_sign/sign.jpg');
