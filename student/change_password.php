@@ -1,0 +1,105 @@
+<?php
+require_once __DIR__ . '/../middleware/auth.php';
+requireRole('student');
+$title='Change Password';
+require_once 'header.php';
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../security/csrf.php';
+require_once __DIR__ . '/../mails/master.php';
+
+$error = [];
+$successMessage = '';
+
+$user_name= $_SESSION['email'];
+$stmt=$pdo->prepare('select * from users where email=?');
+$stmt->execute([$user_name]);
+$row = $stmt->fetch();
+
+
+$stmt = $pdo->prepare("select * from students where alt_email=?");
+$stmt->execute([$user_name]);
+$student = $stmt->fetch();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_validate($_POST['csrf_token']);
+
+    $old_password = trim($_POST['old_password']);
+    $new_password = trim($_POST['new_password']);
+    $confirm_password = trim($_POST['confirm_password']);
+
+    // Validation
+    if (strlen($old_password) < 3) {
+        $errors[] = "Old Password must be at least 3 characters.";
+    }
+    if (strlen($new_password) < 3) {
+        $errors[] = "New Password must be at least 3 characters.";
+    }
+    if($old_password == $new_password){
+        $errors[] = "Old Password and New Password cannot be same.";
+    }
+    if ($new_password != $confirm_password) {
+        $errors[] = "Passwords do not match.";
+    }
+
+    // Check if old password is correct
+    if (!password_verify($old_password, $row['password'])) {
+        $errors[] = "Old Password is incorrect.";
+    }
+    if (empty($errors)) {
+        $stmt = $pdo->prepare("update users set password=? where email=?");
+        $stmt->execute([password_hash($new_password, PASSWORD_DEFAULT), $user_name]);
+        $successMessage = "Password updated successfully";
+        $result = sendHTMLMail($row["email"],$row["name"],$successMessage,'templates/password_change.html',['name' => $row["name"],'email'=> $row["email"],'password'=> $new_password]);
+        $successMessage = "Password updated successfully";
+    }
+}
+?>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-5 mb-4 order-0">
+            <div class="card">
+                <div class="d-flex align-items-end row">
+                    <div class="col-sm-12">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary text-center">Change Password</h5>
+                            <?php
+                            if (!empty($errors)) {
+                                echo '<div class="alert alert-danger" role="alert">';
+                                echo '<ul>';
+                                foreach ($errors as $error) {
+                                    echo '<li>' . $error . '</li>';
+                                }
+                                echo '</ul>';
+                                echo '</div>';
+                            }
+                            if($successMessage){
+                                echo '<div class="alert alert-success" role="alert">' . $successMessage . '</div>';
+                            }
+                            ?>
+                            <form action="" method="POST">
+                                <input type="hidden" name="csrf_token" value="<?= generateCSRF() ?>">
+                                <div class="mb-3">
+                                    <label for="old_password" class="form-label">Old Password</label>
+                                    <input type="password" class="form-control" id="old_password" name="old_password" value="" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="new_password" class="form-label">New Password</label>
+                                    <input type="password" class="form-control" id="new_password" name="new_password" value="" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirm_password" class="form-label">Confirm Password</label>
+                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" value="" required>
+                                </div>
+                                <center>
+                                    <button type="submit" class="btn btn-primary">Change Password</button>
+                                <center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php require_once 'bottom.php'; ?>

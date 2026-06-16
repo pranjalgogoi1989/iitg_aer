@@ -45,6 +45,62 @@ INSERT INTO `accepted_applications` VALUES
 UNLOCK TABLES;
 
 --
+-- Table structure for table `applications`
+--
+
+DROP TABLE IF EXISTS `applications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `applications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `roll_no` varchar(45) DEFAULT NULL,
+  `salutation` varchar(45) DEFAULT NULL,
+  `first_name` varchar(45) DEFAULT NULL,
+  `last_name` varchar(45) DEFAULT NULL,
+  `iitg_email` varchar(45) DEFAULT NULL,
+  `alt_email` varchar(45) DEFAULT NULL,
+  `country_code` varchar(45) DEFAULT NULL,
+  `mobile_number` varchar(45) DEFAULT NULL,
+  `department` varchar(100) DEFAULT NULL,
+  `programme` varchar(45) DEFAULT NULL,
+  `joining_year` varchar(45) DEFAULT NULL,
+  `graduation_year` varchar(45) DEFAULT NULL,
+  `hostel` varchar(45) DEFAULT NULL,
+  `country` varchar(45) DEFAULT NULL,
+  `state` varchar(45) DEFAULT NULL,
+  `city` varchar(45) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `pincode` varchar(45) DEFAULT NULL,
+  `linkedin` varchar(45) DEFAULT NULL,
+  `whatsapp` varchar(45) DEFAULT NULL,
+  `por` varchar(200) DEFAULT NULL,
+  `organization` varchar(100) DEFAULT NULL,
+  `designation` varchar(100) DEFAULT NULL,
+  `next_venture` varchar(200) DEFAULT NULL,
+  `photo` varchar(100) DEFAULT NULL,
+  `transcript` varchar(100) DEFAULT NULL,
+  `certificate` varchar(100) DEFAULT NULL,
+  `receipt` varchar(100) DEFAULT NULL,
+  `email_verified` varchar(45) DEFAULT NULL,
+  `application_status` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `applications`
+--
+
+LOCK TABLES `applications` WRITE;
+/*!40000 ALTER TABLE `applications` DISABLE KEYS */;
+INSERT INTO `applications` VALUES
+(1,'230101001','Mr','Anjan','Baruah','pranjal1989@iitg.ac.in','anjanbaruah97@gmail.com','91','9401389359','Jyoti and Bhupat Mehta School of Health Sciences & Technology','B.Tech','2023','2026','Lohit','India','Assam','Naharkatia','house no 4','786610','www.linkedin.in/anjabaruah97','8876952298','NA','IITG','Junior Assistant',NULL,'/uploads/230101001/photo.jpg','/uploads/230101001/transcript.pdf','/uploads/230101001/certificate.pdf','/uploads/230101001/receipt.pdf',NULL,NULL,'2026-06-16 05:52:18','2026-06-16 06:30:31');
+/*!40000 ALTER TABLE `applications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `countries`
 --
 
@@ -372,7 +428,7 @@ CREATE TABLE `email_verification` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -382,7 +438,8 @@ CREATE TABLE `email_verification` (
 LOCK TABLES `email_verification` WRITE;
 /*!40000 ALTER TABLE `email_verification` DISABLE KEYS */;
 INSERT INTO `email_verification` VALUES
-(1,'pranjal.gogoi983@gmail.com','465809','2026-06-09 20:58:27','2026-06-12 20:30:44');
+(1,'pranjal.gogoi983@gmail.com','154907','2026-06-09 20:58:27','2026-06-16 03:20:05'),
+(2,'anjanbaruah97@gmail.com','728108','2026-06-15 18:46:37','2026-06-15 18:46:37');
 /*!40000 ALTER TABLE `email_verification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -540,40 +597,25 @@ DROP TABLE IF EXISTS `students`;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `students` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `roll_no` varchar(45) DEFAULT NULL,
   `salutation` varchar(45) DEFAULT NULL,
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
-  `iitg_email` varchar(45) DEFAULT NULL,
   `alt_email` varchar(45) DEFAULT NULL,
   `country_code` varchar(45) DEFAULT NULL,
   `mobile_number` varchar(45) DEFAULT NULL,
-  `department` varchar(45) DEFAULT NULL,
-  `programme` varchar(45) DEFAULT NULL,
-  `joining_year` varchar(45) DEFAULT NULL,
-  `graduation_year` varchar(45) DEFAULT NULL,
-  `hostel` varchar(45) DEFAULT NULL,
   `country` varchar(45) DEFAULT NULL,
   `state` varchar(45) DEFAULT NULL,
   `city` varchar(45) DEFAULT NULL,
-  `address` varchar(45) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
   `pincode` varchar(45) DEFAULT NULL,
   `linkedin` varchar(45) DEFAULT NULL,
   `whatsapp` varchar(45) DEFAULT NULL,
-  `por` varchar(200) DEFAULT NULL,
-  `organization` varchar(45) DEFAULT NULL,
-  `designation` varchar(45) DEFAULT NULL,
-  `next_venture` varchar(200) DEFAULT NULL,
   `photo` varchar(100) DEFAULT NULL,
-  `transcript` varchar(100) DEFAULT NULL,
-  `certificate` varchar(100) DEFAULT NULL,
-  `receipt` varchar(100) DEFAULT NULL,
   `email_verified` varchar(45) DEFAULT NULL,
-  `application_status` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -583,7 +625,8 @@ CREATE TABLE `students` (
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
 INSERT INTO `students` VALUES
-(1,'1234567890','Mr','Pranjal','Gogoi','pranjal.gogoi983@gmail.com','pranjal.gogoi983@gmail.com','1','9401389359','Biotechnology','M.Sc','2022','2025','Barak','Albania','Assam','Naharkatia',NULL,'786610','','1234567789',NULL,'','','','/uploads/1234567890/photo.jpg','/uploads/1234567890/transcript.pdf','/uploads/1234567890/certificate.pdf','/uploads/1234567890/receipt.pdf','Verified','Applied','2026-06-09 20:58:27','2026-06-14 20:59:59');
+(1,'Mr','Pranjal','Gogoi','pranjal.gogoi983@gmail.com','1','9401389359','Albania','Assam','Naharkatia',NULL,'786610','','1234567789','/uploads/1234567890/photo.jpg','pending','2026-06-09 20:58:27','2026-06-16 03:19:39'),
+(2,'Mr','Anjan','Baruah','anjanbaruah97@gmail.com','91','9401389359','India','Assam','Naharkatia','house no 4','786610','https://www.linkedin.com/pranjalgogoi1989','9401389359','/uploads/photo/2.jpg','Verified','2026-06-15 18:46:37','2026-06-16 04:01:41');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -606,7 +649,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -618,7 +661,8 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES
 (1,'Pranjal','pranjal.gogoi983@gmail.com','$2y$10$wmJglgNZzkJPkIIQ5vBmJeXcLUig2k6XsoYVDCvJRiLKx6GqlwYUO','student',0,NULL,'2026-06-09 20:58:27','2026-06-10 17:51:22'),
 (3,NULL,NULL,'$2y$10$/tPPLFxDIKId.XeGxai6jecYU5hOk0vZPSlfCRC3vYuXSRMj9rn.O','admin',0,NULL,'2026-06-13 20:04:47','2026-06-13 20:04:47'),
-(4,'Admin','admin@gmail.com','$2y$10$gFf2uvGNWeo6Ow6vqz7Gn.5Q4PtcTWq8h1Q46VQkN0sBepkdTatSm','admin',0,NULL,'2026-06-13 20:05:06','2026-06-13 20:05:06');
+(4,'Admin','admin@gmail.com','$2y$10$gFf2uvGNWeo6Ow6vqz7Gn.5Q4PtcTWq8h1Q46VQkN0sBepkdTatSm','admin',0,NULL,'2026-06-13 20:05:06','2026-06-13 20:05:06'),
+(5,'Anjan Baruah','anjanbaruah97@gmail.com','$2y$10$I5MoGAPvOT4u7DSWP.0fTOyqIi7yOUEChe4/V8oZV7bs/fCeZQc3y','student',0,NULL,'2026-06-15 18:46:37','2026-06-15 18:46:37');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -631,4 +675,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-06-15  2:58:20
+-- Dump completed on 2026-06-16 12:40:06

@@ -61,6 +61,25 @@ function generateAlumniCard($studentId, $pdo)
     // ===== BACK =====
     $pdf->AddPage();
     $pdf->Image($back,0,0,89,57,'JPG');
+
+    $style = array(
+        'position' => '',
+        'align' => 'C',
+        'stretch' => false,
+        'fitwidth' => true,
+        'cellfitalign' => '',
+        'border' => false,
+        'hpadding' => 'auto',
+        'vpadding' => 'auto',
+        'fgcolor' => array(0,0,0),
+        'bgcolor' => false,
+        'text' => false,
+        'font' => 'helvetica',
+        'fontsize' => 8,
+        'stretchtext' => 4
+    );
+    $pdf->write1DBarcode($studentId,'C128',20,3.8,30,8,0.4,$style,'N');
+
     $pdf->SetFont('times','',5);
     $pdf->SetXY(58.0,3.8);
     $pdf->Cell(30,4,'+' . trim($student['country_code']) . ' ' . trim($student['mobile_number']));
