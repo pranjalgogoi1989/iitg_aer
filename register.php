@@ -43,11 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt1=$pdo->prepare("insert into email_verification(email,verification_code) values(?,?)");
         $stmt1->execute([$email,$secureCode]);
 
-        $stmt2=$pdo->prepare("INSERT INTO students(first_name,last_name,alt_email,mobile_number, email_verified) values(?,?,?,?)");
+        $stmt2=$pdo->prepare("INSERT INTO students(first_name,last_name,alt_email,mobile_number, email_verified) values(?,?,?,?,?)");
         $stmt2->execute([$first_name,$last_name,$email,$mobile_no,'pending']);
+        $successMessage = "Registration successful";
         $result = sendHTMLMail($email,$first_name,$successMessage,'templates/registration.html',['name' => $first_name,'email'=> $email,'password'=> $password]);
         $result1 = sendHTMLMail($email,$first_name,'Email Verification','templates/email_verification.html',['name' => $first_name,'email'=> $email,'code' => $secureCode]);
-        $successMessage = "Registration successful";
     }
 }
 ?>
