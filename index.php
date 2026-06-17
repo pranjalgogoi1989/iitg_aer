@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['email'] = $user['email'];
             $_SESSION['name'] = $user['name'];
             $_SESSION['role'] = $user['role'];
-
+            $_SESSION['email_verified'] = $user['email_verified'];
             // Reset failed attempts
             $pdo->prepare("UPDATE users SET failed_attempts = 0, locked_until = NULL WHERE id = ?")
                 ->execute([$user['id']]);

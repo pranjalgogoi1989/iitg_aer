@@ -12,31 +12,26 @@
             <div data-i18n="Analytics">Dashboard</div>
         </a>
     </li>
-    
+    <?php
+    if($_SESSION['email_verified'] == 1) {
+    ?>
     <li class="menu-item <?= isActive('profile.php') ?>">
         <a href="/student/profile.php" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">My Profile</div>
         </a>
     </li>
-    <li class="menu-item <?= isActive('upload_photo.php') ?>">
-        <a href="/student/upload_photo.php" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="Analytics">Upload Photo.</div>
-        </a>
-    </li>
-    <li class="menu-item <?= isActive('apply_card.php') ?>">
-        <a href="/student/apply_card.php" class="menu-link">
+    <li class="menu-item <?= isActive('my_applications.php') ?>">
+        <a href="/student/my_applications.php" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Apply for Alumni Card</div>
         </a>
     </li>
-    <li class="menu-item <?= isActive('my_applications.php') ?>">
-        <a href="/student/my_applications.php" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="Analytics">My Applications</div>
-        </a>
-    </li>
+    <?php
+
+    }
+    ?>
+    
     <li class="menu-item <?= isActive('change_password.php') ?>">
         <a href="/student/change_password.php" class="menu-link">
             <i class="bx bx-power-off me-2"></i>

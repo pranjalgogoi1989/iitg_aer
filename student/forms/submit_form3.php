@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Please agree to terms and conditions";
     }
     if(empty($errors)) {
-        $stmt=$pdo->prepare("update applications set application_status='Submitted' where roll_no=?");
+        $stmt=$pdo->prepare("update applications set application_status='Submitted',submission_stage='3' where roll_no=?");
         $stmt->execute([$application_id]);
         echo json_encode([
             'status' => 'success',

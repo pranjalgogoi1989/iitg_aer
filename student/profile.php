@@ -47,7 +47,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $first_name = trim($_POST['first_name']);
     $last_name = trim($_POST['last_name']);
     $alt_email = trim($_POST['alt_email']);
-    $terms = trim($_POST['terms']);
     $country_code = trim($_POST['country_code']);
     $mobile_number = trim($_POST['mobile']);
     $country = trim($_POST['country']);
@@ -57,26 +56,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pincode = trim($_POST['pincode']);
     $linkedin = trim($_POST['linkedin']);
     $whatsapp = trim($_POST['whatsapp']);
-
-    if($terms != 'on') {
-        $errors[] = "Please agree to terms and conditions";
-    }
-
-    $stm = $pdo->prepare("select * from students where alt_email=? and email_verified='Verified'");
-    $stm->execute([$user_name]);
-    $results = $stm->fetch();
-    if(empty($results)) {
-        $verification_code = trim($_POST['otp']);
-        $stmt=$pdo->prepare("select * from email_verification where email=? and verification_code=?");
-        $stmt->execute([$user_name,$verification_code]);
-        $result=$stmt->fetch();
-        if(empty($result)) {
-            $errors[] = "Invalid Verification Code";
-        }else{
-            $stmt2=$pdo->prepare("update students set email_verified=? where alt_email=?");
-            $stmt2->execute(['Verified',$user_name]);
-        }
-    }
 
     if (empty($salutation)) {
         $errors[] = 'Salutation is required';
@@ -121,37 +100,7 @@ $student = $stmt->fetch();
 
 ?>
 
-<script>
-function requestOTP() {
-    $("#response").html("Requesting OTP...");
-    $.ajax({
-        url: 'email_verification.php',
-        type: 'POST',
-        success: function(data) {
-            $("#response").html(data);
-            window.location.reload();
-        },
-        error: function() {
-            $("#response").html("Request failed");
-        }
-    });
-}
 
-function verifyOTP() {
-    var otp=$('#otp').val();
-    $.ajax({
-        url: 'email_verify.php',
-        type: 'POST',
-        data: {otp: otp},
-        success: function(data) {
-            $("#response").html('Verification Code sen to your email.');
-        },
-        error: function() {
-            $("#response").html("Request failed");
-        }
-    });
-}
-</script>
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
         <div class="col-lg-12 mb-4 order-0">
@@ -199,19 +148,8 @@ function verifyOTP() {
                                 <div class="row">
                                 
                                     <div class="col-sm-6">
-                                        <label for="alt_email">Alternate Email ID : </label> <input type="email" name="alt_email" id="alt_email" class="form-control" value="<?= $student['alt_email'] ?>" readonly>
-                                        <?php
-                                            $status = $student['email_verified'];
-                                            if($status == 'pending'){
-                                                echo '<button class="btn btn-primary" onclick="requestOTP()">Request Verification Code</button>';
-                                            }
-                                        ?>
-                                        <center><span id='response'class="text-success text-center"></span></center>
-                                        <?php
-                                            if($status=='pending'){
-                                                echo '<input type="text" id="otp" name="otp" placeholder="Enter Verification Code" class="form-control">';
-                                            }
-                                        ?>
+                                        <label for="alt_email">Alternate Email ID : </label> <input type="email" name="alt_email" id="alt_email" class="form-control" value="<?= $student['alt_email'] ?? $_SESSION['user_name'] ?>" readonly>
+                                        
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="country_code">Country Code <span class="text-danger">*</span></label>
@@ -235,7 +173,7 @@ function verifyOTP() {
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <label for="mobile">Mobile Number <span class="text-danger">*</span></label>
-                                        <input type="text" name="mobile" id="mobile" class="form-control" value="<?= $mobile_number ?>">
+                                        <input type="text" name="mobile" id="mobile" class="form-control" value="<?= $student['mobile_number'] ?>">
                                     </div>
                                     <div class="col-sm-4">
                                         <label for="counry">Country <span class="text-danger">*</span></label>
@@ -288,14 +226,6 @@ function verifyOTP() {
                                 </div>
                                 
                                 <br>
-                                <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" required onclick="enableButton(this.checked)"/>
-                                    <label class="form-check-label" for="terms-conditions">
-                                    I agree that all the informations provided are correct.
-                                    </label>
-                                </div>
-                                </div>
                                 <center>
                                 <button class="btn btn-primary d-grid" type="submit" id="register">Update</button>
                                 </center>

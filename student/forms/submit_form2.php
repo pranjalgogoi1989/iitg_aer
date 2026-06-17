@@ -9,7 +9,7 @@ $stmt=$pdo->prepare('select * from applications where roll_no=? limit 1');
 $stmt->execute([$application_id]);
 $student = $stmt->fetch();
 
-$upload_files=array('transcript','certificate','receipt');
+$upload_files=array('photo','transcript','certificate','receipt');
 $uploadStatus = [];
 foreach ($upload_files as $file) {
     if(isset($_FILES[$file])) {
@@ -26,15 +26,22 @@ foreach ($upload_files as $file) {
             echo "<span style='color:red'>Invalid file type.</span>";
             exit;
         }
-        if ($_FILES[$file]["size"] > 15 * 1024 * 1024) {
-            echo "<span style='color:red'>File too large (Max 15MB).</span>";
-            exit;
+        if($document_name=='photo') {
+            if ($_FILES[$file]["size"] > 2 * 1024 * 1024) {
+                echo "<span style='color:red'>File too large (Max 2MB).</span>";
+                exit;
+            }
+        }else{
+            if ($_FILES[$file]["size"] > 15 * 1024 * 1024) {
+                echo "<span style='color:red'>File too large (Max 15MB).</span>";
+                exit;
+            }
         }
         $newFileName = $document_name . "." . $fileExt;
         $targetFile = $targetDir .'/'. $newFileName;
         if(move_uploaded_file($_FILES[$file]["tmp_name"], $targetFile)) {
             $filePath = "/uploads/".$student["roll_no"]."/" . $newFileName;
-            $stmt = $pdo->prepare("update applications set $file=? where roll_no=?");
+            $stmt = $pdo->prepare("update applications set $file=?,submission_stage='2' where roll_no=?");
             $stmt->execute([$filePath,$student["roll_no"]]);
             $uploadStatus[$file] = true;
         } else {

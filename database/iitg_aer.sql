@@ -41,7 +41,9 @@ LOCK TABLES `accepted_applications` WRITE;
 /*!40000 ALTER TABLE `accepted_applications` DISABLE KEYS */;
 INSERT INTO `accepted_applications` VALUES
 ('1234567890','aa','generated','2026-06-14 21:00:10','2026-06-14 21:19:41'),
-('230101001','OK','generated','2026-06-16 08:05:56','2026-06-16 08:06:56');
+('220101001','Test','generated','2026-06-17 19:15:29','2026-06-17 19:16:30'),
+('230101001','OK','generated','2026-06-16 08:05:56','2026-06-16 08:06:56'),
+('230201001','OK','generated','2026-06-17 19:15:46','2026-06-17 19:16:30');
 /*!40000 ALTER TABLE `accepted_applications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,10 +85,11 @@ CREATE TABLE `applications` (
   `certificate` varchar(100) DEFAULT NULL,
   `receipt` varchar(100) DEFAULT NULL,
   `application_status` varchar(45) DEFAULT NULL,
+  `submission_stage` int(11) DEFAULT 1,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +99,9 @@ CREATE TABLE `applications` (
 LOCK TABLES `applications` WRITE;
 /*!40000 ALTER TABLE `applications` DISABLE KEYS */;
 INSERT INTO `applications` VALUES
-(1,'230101001','Mr','Anjan','Baruah','pranjal1989@iitg.ac.in','anjanbaruah97@gmail.com','91','9401389359','Jyoti and Bhupat Mehta School of Health Sciences & Technology','B.Tech','2023','2026','Lohit','India','Assam','Naharkatia','house no 4','786610','www.linkedin.in/anjabaruah97','8876952298','NA','IITG','Junior Assistant',NULL,'/uploads/230101001/photo.jpg','/uploads/230101001/transcript.pdf','/uploads/230101001/certificate.pdf','/uploads/230101001/receipt.pdf','Approved','2026-06-16 05:52:18','2026-06-16 10:27:55');
+(1,'230101001','Mr','Anjan','Baruah','pranjal1989@iitg.ac.in','anjanbaruah97@gmail.com','91','9401389359','Jyoti and Bhupat Mehta School of Health Sciences & Technology','B.Tech','2023','2026','Lohit','India','Assam','Naharkatia','house no 4','786610','www.linkedin.in/anjabaruah97','8876952298','NA','IITG','Junior Assistant',NULL,'/uploads/230101001/photo.jpg','/uploads/230101001/transcript.pdf','/uploads/230101001/certificate.pdf','/uploads/230101001/receipt.pdf','Approved',3,'2026-06-16 05:52:18','2026-06-17 19:14:22'),
+(2,'230201001','Mr','Anjan','Baruah','pranjal1989@iitg.ac.in','anjanbaruah97@gmail.com','91','9401389359','Electronics and Communication Engineering','B.Tech','2023','2026','Lohit','India','Assam','Naharkatia','house no 4','786610','https://www.linkedin.com/pranjalgogoi1989','8876952298','NA','IITG','Junior Assistant','NA','/uploads/230201001/photo.jpg','/uploads/230201001/transcript.pdf','/uploads/230201001/certificate.pdf','/uploads/230201001/receipt.pdf','Approved',3,'2026-06-17 17:54:26','2026-06-17 19:15:46'),
+(3,'220101001','Mr','Anjan','Baruah','','anjanbaruah97@gmail.com','91','8876952298','Computer Science& Engineering','B.Tech','2022','2026','Barak','India','Assam','Naharkatia','house no 4','786610','https://www.linkedin.com/pranjalgogoi1989','8876952298','','','','','/uploads/220101001/photo.jpg','/uploads/220101001/transcript.pdf','/uploads/220101001/certificate.pdf','/uploads/220101001/receipt.pdf','Approved',3,'2026-06-17 19:00:59','2026-06-17 19:15:29');
 /*!40000 ALTER TABLE `applications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -439,7 +444,7 @@ LOCK TABLES `email_verification` WRITE;
 /*!40000 ALTER TABLE `email_verification` DISABLE KEYS */;
 INSERT INTO `email_verification` VALUES
 (1,'pranjal.gogoi983@gmail.com','154907','2026-06-09 20:58:27','2026-06-16 03:20:05'),
-(2,'anjanbaruah97@gmail.com','728108','2026-06-15 18:46:37','2026-06-15 18:46:37');
+(2,'anjanbaruah97@gmail.com','289258','2026-06-15 18:46:37','2026-06-17 18:38:45');
 /*!40000 ALTER TABLE `email_verification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -611,7 +616,6 @@ CREATE TABLE `students` (
   `linkedin` varchar(45) DEFAULT NULL,
   `whatsapp` varchar(45) DEFAULT NULL,
   `photo` varchar(100) DEFAULT NULL,
-  `email_verified` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
@@ -625,8 +629,8 @@ CREATE TABLE `students` (
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
 INSERT INTO `students` VALUES
-(1,'Mr','Pranjal','Gogoi','pranjal.gogoi983@gmail.com','91','9401389359','India','Assam','Naharkatia','house no 4','786610','','1234567789','/uploads/1234567890/photo.jpg','Verified','2026-06-09 20:58:27','2026-06-16 07:48:52'),
-(2,'Mr','Anjan','Baruah','anjanbaruah97@gmail.com','91','9401389359','India','Assam','Naharkatia','house no 4','786610','https://www.linkedin.com/pranjalgogoi1989','9401389359','/uploads/photo/2.jpg','Verified','2026-06-15 18:46:37','2026-06-16 04:01:41');
+(1,'Mr','Pranjal','Gogoi','pranjal.gogoi983@gmail.com','91','9401389359','India','Assam','Naharkatia','house no 4','786610','','1234567789','/uploads/1234567890/photo.jpg','2026-06-09 20:58:27','2026-06-16 07:48:52'),
+(2,'Mr','Anjan','Baruah','anjanbaruah97@gmail.com','91','8876952298','India','Assam','Naharkatia','house no 4','786610','https://www.linkedin.com/pranjalgogoi1989','9401389359','/uploads/photo/2.jpg','2026-06-15 18:46:37','2026-06-17 18:52:48');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -645,6 +649,7 @@ CREATE TABLE `users` (
   `role` varchar(45) DEFAULT NULL,
   `failed_attempts` int(11) DEFAULT 0,
   `locked_until` datetime DEFAULT NULL,
+  `email_verified` tinyint(4) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
@@ -659,10 +664,10 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
-(1,'Pranjal','pranjal.gogoi983@gmail.com','$2y$10$wmJglgNZzkJPkIIQ5vBmJeXcLUig2k6XsoYVDCvJRiLKx6GqlwYUO','student',0,NULL,'2026-06-09 20:58:27','2026-06-10 17:51:22'),
-(3,NULL,NULL,'$2y$10$/tPPLFxDIKId.XeGxai6jecYU5hOk0vZPSlfCRC3vYuXSRMj9rn.O','admin',0,NULL,'2026-06-13 20:04:47','2026-06-13 20:04:47'),
-(4,'Admin','admin@gmail.com','$2y$10$gFf2uvGNWeo6Ow6vqz7Gn.5Q4PtcTWq8h1Q46VQkN0sBepkdTatSm','admin',0,NULL,'2026-06-13 20:05:06','2026-06-13 20:05:06'),
-(5,'Anjan Baruah','anjanbaruah97@gmail.com','$2y$10$I5MoGAPvOT4u7DSWP.0fTOyqIi7yOUEChe4/V8oZV7bs/fCeZQc3y','student',0,NULL,'2026-06-15 18:46:37','2026-06-15 18:46:37');
+(1,'Pranjal','pranjal.gogoi983@gmail.com','$2y$10$wmJglgNZzkJPkIIQ5vBmJeXcLUig2k6XsoYVDCvJRiLKx6GqlwYUO','student',0,NULL,0,'2026-06-09 20:58:27','2026-06-10 17:51:22'),
+(3,NULL,NULL,'$2y$10$/tPPLFxDIKId.XeGxai6jecYU5hOk0vZPSlfCRC3vYuXSRMj9rn.O','admin',0,NULL,0,'2026-06-13 20:04:47','2026-06-13 20:04:47'),
+(4,'Admin','admin@gmail.com','$2y$10$gFf2uvGNWeo6Ow6vqz7Gn.5Q4PtcTWq8h1Q46VQkN0sBepkdTatSm','admin',0,NULL,0,'2026-06-13 20:05:06','2026-06-13 20:05:06'),
+(5,'Anjan Baruah','anjanbaruah97@gmail.com','$2y$10$I5MoGAPvOT4u7DSWP.0fTOyqIi7yOUEChe4/V8oZV7bs/fCeZQc3y','student',0,NULL,1,'2026-06-15 18:46:37','2026-06-17 18:48:29');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -675,4 +680,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-06-16 16:00:11
+-- Dump completed on 2026-06-18  1:01:49

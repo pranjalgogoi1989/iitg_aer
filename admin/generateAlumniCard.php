@@ -113,7 +113,11 @@ function generateAlumniCard($studentId, $pdo)
     $pdf->SetXY(58.0,3.8);
     $pdf->Cell(30,4,'+' . trim($student['country_code']) . ' ' . trim($student['mobile_number']));
     $pdf->SetXY(58.3,6.2);
-    $pdf->Cell(30,4,$student['iitg_email']);
+    if($student['iitg_email'] == null){
+        $pdf->Cell(30,4,$student['alt_email']);
+    }else{
+        $pdf->Cell(30,4,$student['iitg_email']);
+    }
     $pdf->SetXY(58.3,9.0);
     $pdf->Cell(30,4,$student['city'] . ', ' . $student['state']);
     $stmt = $pdo->prepare('update accepted_applications set status="generated" WHERE roll_no = ? ');

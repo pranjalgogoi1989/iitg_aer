@@ -7,29 +7,20 @@ require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../security/csrf.php';
 require_once __DIR__ . '/../mails/master.php';
 
+$rollno='';
+if(isset($_GET['roll_no'])){
+    $rollno= $_GET['roll_no'];
+}
 
 $user_name= $_SESSION['email'];
 $stmt=$pdo->prepare('select * from users where email=?');
 $stmt->execute([$user_name]);
 $row = $stmt->fetch();
 
-
-$stmt = $pdo->prepare("select * from students where alt_email=?");
-$stmt->execute([$user_name]);
-$student = $stmt->fetch();
-
-$successMessage='';
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    csrf_validate($_POST['csrf_token']);
-    
-    $successMessage = "Application submitted successfully";
-}
-
-$stmt = $pdo->prepare("select * from students where alt_email=? and email_verified='Verified'");
-$stmt->execute([$user_name]);
-$student = $stmt->fetch();
-if(empty($student)){
-    echo '<script>window.location.href="profile.php";</script>';
+if(isset($_GET['roll_no'])){
+    $stmt = $pdo->prepare("select * from applications where roll_no=?");
+    $stmt->execute([$rollno]);
+    $student = $stmt->fetch();
 }
 ?>
 
@@ -56,13 +47,13 @@ if(empty($student)){
                     <h2 class="mb-3">Application Form</h2>
                     <ul class="nav nav-pills nav-fill mb-0" id="wizardTabs">
                         <li class="nav-item">
-                            <button class="nav-link active" id="step1-tab" data-bs-toggle="pill" data-bs-target="#step1"> Step 1 - Basic Details </button>
+                            <button class="nav-link active" id="step1-tab" data-bs-toggle="pill" data-bs-target="#step1"> <?= ($rollno && $student['submission_stage']>='1') ? '✓ Step 1 - Basic Details' : 'Step 1 - Basic Details'?></button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" id="step2-tab" data-bs-toggle="pill" data-bs-target="#step2" disabled> Step 2 - Documents Upload </button>
+                            <button class="nav-link" id="step2-tab" data-bs-toggle="pill" data-bs-target="#step2" <?= ($rollno && $student['submission_stage']>='1') ? '' : 'disabled' ?> > <?= ($rollno && $student['submission_stage']>='2') ? '✓ Step 2 - Documents Upload' : 'Step 2 - Documents Upload'?> </button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" id="step3-tab" data-bs-toggle="pill" data-bs-target="#step3" disabled> Step 3 - Preview and Submit  </button>
+                            <button class="nav-link" id="step3-tab" data-bs-toggle="pill" data-bs-target="#step3" <?= ($rollno && $student['submission_stage']>='2') ? '' : 'disabled' ?>><?= ($rollno && $student['submission_stage']>='3') ? '✓ Step 3 - Preview and Submit' : 'Step 3 - Preview and Submit'?>  </button>
                         </li>
                     </ul>
 
@@ -82,14 +73,14 @@ if(empty($student)){
                         <div class="tab-pane fade" id="step2">
                             <form id="step2Form" enctype="multipart/form-data">
                                 <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
-                                <input type="hidden" name="application_id" id="application_id" value="">
+                                <input type="hidden" name="application_id" id="application_id" value="<?= $student['application_id'] ?? (isset($_GET['roll_no'])?$_GET['roll_no']:'') ?>">
                                 <?php include('forms/upload_form.php'); ?>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="step3">
                             <form id="step3Form">
                                 <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
-                                <input type="hidden" name="application_id2" id="application_id2" value="">
+                                <input type="hidden" name="application_id2" id="application_id2" value="<?= $student['application_id'] ?? (isset($_GET['roll_no'])?$_GET['roll_no']:'') ?>">
                             <?php include('forms/preview.php'); ?>
 
                             <br>

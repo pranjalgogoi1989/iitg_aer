@@ -6,14 +6,21 @@ require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../security/csrf.php';
 require_once __DIR__ . '/../../mails/master.php';
 
+$rollNo = '';
+if(isset($_GET['roll_no'])){
+    $rollNo = $_GET['roll_no'];
+}
 $user_name= $_SESSION['email'];
-$stmt=$pdo->prepare('select * from applications where alt_email=? limit 1');
-$stmt->execute([$user_name]);
-$appl = $stmt->fetch();
+if(isset($_GET['roll_no'])){
+    $stmt = $pdo->prepare("select * from applications where roll_no=?");
+    $stmt->execute([$rollNo]);
+    $appl = $stmt->fetch();
+}
 ?>
+<small><span class="text-danger">*</span> Marked fields are mandatory</small>
 <div class="row">
     <div class="col-sm-4">
-        <label for="iitg_email">IITG Email ID <span class="text-danger">*</span></label>
+        <label for="iitg_email">IITG Email ID </label>
         <input type="email" name="iitg_email" id="iitg_email" class="form-control" value="<?=$appl['iitg_email'] ?? ''?>">
     </div>
     <div class="col-sm-4">
@@ -135,7 +142,7 @@ $appl = $stmt->fetch();
 </div>
 <div class="row">
     <div class="col-sm-12">
-    <label for="next_venture">Details of your next venture or destination (if known)</label>
+    <label for="next_venture">Details of your next venture or destination if known(Current Job, Position, Name of Company etc.)</label>
     <textarea name="next_venture" id="next_venture" class="form-control" rows="2"><?=$appl['next_venture'] ?? ''?></textarea>
     </div>
 </div>

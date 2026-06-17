@@ -7,10 +7,20 @@ require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../security/csrf.php';
 require_once __DIR__ . '/../../mails/master.php';
 
+$rollNo = '';
+if(isset($_GET['roll_no'])){
+    $rollNo = $_GET['roll_no'];
+}
 $user_name= $_SESSION['email'];
-$stmt=$pdo->prepare('select * from applications where alt_email=? limit 1');
-$stmt->execute([$user_name]);
-$appl = $stmt->fetch();
+if(isset($_GET['roll_no'])){
+    $stmt = $pdo->prepare("select * from applications where roll_no=? limit 1");
+    $stmt->execute([$rollNo]);
+    $appl = $stmt->fetch();
+}else{
+    $stmt=$pdo->prepare('select * from applications where alt_email=? limit 1');
+    $stmt->execute([$user_name]);
+    $appl = $stmt->fetch();
+}
 ?>
 
 <div class="row">
@@ -110,7 +120,7 @@ $appl = $stmt->fetch();
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label for="next_venture">Details of your next venture or destination (if known)</label>: <strong><?=$appl['next_venture'] ?? ''?></strong>
+                                <label for="next_venture">Details of your next venture or destination if known(Current Job, Position, Name of Company etc.)</label>: <strong><?=$appl['next_venture'] ?? ''?></strong>
                             </div>
                         </div>
 

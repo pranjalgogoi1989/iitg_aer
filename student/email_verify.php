@@ -14,15 +14,16 @@ $stmt = $pdo->prepare("select * from email_verification where email=? and verifi
 $stmt->execute([$user_name,$otp]);
 $verification = $stmt->fetch();
 
-$stmt2 = $pdo->prepare("select * from students where alt_email=?");
+$stmt2 = $pdo->prepare("select * from users where email=?");
 $stmt2->execute([$user_name]);
 $student = $stmt2->fetch();
 
 if($verification){
-    $stmt = $pdo->prepare("update students set email_verified='Verified' where alt_email=?");
+    $stmt = $pdo->prepare("update users set email_verified='1' where email=?");
     $stmt->execute([$user_name]);
-    $result1 = sendHTMLMail($user_name,$student['first_name'],'Email Verification','templates/email_verified.html',['name' => $student['first_name'],'email'=> $user_name]);
+    $result1 = sendHTMLMail($user_name,$student['name'],'Email Verification','templates/email_verified.html',['name' => $student['name'],'email'=> $user_name]);
     echo "Email verified successfully";
+    $_SESSION['email_verified'] = true;
 }else{
     echo "Invalid email verification code";
 }
