@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../middleware/auth.php';
-requireRole('admin');
+requireRole('staff');
 $title='Apply for Alumni Card';
 require_once 'header.php';
 require_once __DIR__ . '/../config/config.php';
@@ -57,14 +57,14 @@ $student = $stmt->fetch();
                                 <div class="col-sm-4">
                                     <label for="">Linkedin Profile </label> : <strong><?=$student['linkedin']?></strong>
                                 </div>
-                               
+                                
                             </div>
                            
                             <br>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <center>
-                                        <a href="/admin/students.php" class="btn btn-danger">Go Back</a>
+                                        <a href="students.php" class="btn btn-danger">Go Back</a>
                                     </center>
                                 </div>
                             </div>

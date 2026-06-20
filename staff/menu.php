@@ -12,14 +12,18 @@
             <div data-i18n="Analytics">Dashboard</div>
         </a>
     </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-layout"></i><div data-i18n="Layouts">Projects</div>
+
+    <li class="menu-item <?= isActive('students.php') ?>">
+        <a href="/staff/students.php" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-group"></i>
+            <div data-i18n="Analytics">Students</div>
         </a>
-        <ul class="menu-sub">
-            <li class="menu-item"><a href="/staff/new_project.php" class="menu-link"><div data-i18n="Blank">New Project</div></a></li>
-            <li class="menu-item"><a href="/staff/all_projects.php" class="menu-link"><div data-i18n="Blank">All Projects</div></a></li>
-        </ul>
+    </li>
+    <li class="menu-item <?= isActive('applications.php') ?>">
+        <a href="/staff/applications.php" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-group"></i>
+            <div data-i18n="Analytics">Applications</div>
+        </a>
     </li>
     
     <li class="menu-item <?= isActive('/logout.php') ?>">

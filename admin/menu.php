@@ -29,6 +29,7 @@
         </a>
         <ul class="menu-sub">
             <li class="menu-item"><a href="/admin/users.php" class="menu-link"><div data-i18n="Blank">Users</div></a></li>
+            <li class="menu-item"><a href="/admin/staff.php" class="menu-link"><div data-i18n="Blank">Office User</div></a></li>
             <li class="menu-item"><a href="/admin/students.php" class="menu-link"><div data-i18n="Blank">Students</div></a></li>
             <li class="menu-item"><a href="/admin/smtp.php" class="menu-link"><div data-i18n="Blank">SMTP</div></a></li>
             <li class="menu-item"><a href="/admin/dean.php" class="menu-link"><div data-i18n="Blank">Dean Sign</div></a></li>
