@@ -614,7 +614,7 @@ CREATE TABLE `roles` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -623,6 +623,10 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES
+(1,'student','2026-06-20 21:01:22','2026-06-20 21:01:22'),
+(2,'admin','2026-06-20 21:01:22','2026-06-20 21:01:22'),
+(3,'staff','2026-06-20 21:01:22','2026-06-20 21:01:22');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -727,7 +731,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -745,7 +749,8 @@ INSERT INTO `users` VALUES
 (9,'Test-1 Test-1','supriya.das.in@gamil.com','$2y$10$O/U0PH9BJR/9TUhwDN2EUuJSubJOz0oA4Pb2leyHA/k6kbBkI5pRS','student',0,NULL,0,'PENDING','2026-06-18 07:32:25','2026-06-18 07:32:25'),
 (10,'Test-2 Test-2','aaeriitg@gmail.com','$2y$10$9UgMZhqQJQ7MRTZOUHtwZ.sikq6bOJaNrEEV/1dJnKQnuqZkXbJXO','student',0,NULL,1,'PENDING','2026-06-18 09:54:58','2026-06-18 09:59:00'),
 (11,'Supriya Das','surpiya@iitg.ac.in','$2y$10$.SS./k.qX1dCcoAghpvES.8ZZHhKV.zM2gZkUxx6XCN0YKTTQi.7W','student',0,NULL,0,'PENDING','2026-06-18 11:26:27','2026-06-18 11:26:27'),
-(12,'Supriya Das','supriya@iitg.ac.in','$2y$10$aR2.ardp9QSHSjSyUopjC.OxVueu6WPbt9yo6rFXEtsALxun02X6S','student',0,NULL,1,'PENDING','2026-06-18 11:28:42','2026-06-18 11:31:43');
+(12,'Supriya Das','supriya@iitg.ac.in','$2y$10$aR2.ardp9QSHSjSyUopjC.OxVueu6WPbt9yo6rFXEtsALxun02X6S','student',0,NULL,1,'PENDING','2026-06-18 11:28:42','2026-06-18 11:31:43'),
+(14,'Binod Upadhyay','binod@iitg.ac.in','$2y$10$d3w61YqVGWUhjwEXXTXmWOWfp/8HmBq1h0r1laX0saqu7vUBhSmum','staff',0,NULL,0,'PENDING','2026-06-20 21:11:11','2026-06-20 21:11:11');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -758,4 +763,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-06-21  2:27:46
+-- Dump completed on 2026-06-21  2:54:26
