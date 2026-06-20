@@ -63,7 +63,7 @@ function generateAlumniCard($studentId, $pdo)
     $string_length = strlen(trim($student['department']));
     if($string_length>28){
         $pdf->SetXY(33.0, 32.4);
-        $pdf->Cell(15,4,'Course:');
+        $pdf->MultiCell(16,4,'Department: /Centre');
         $pdf->SetXY(47.0,32.4);
         $pdf->Cell(28,3.5,trim(substr($student['department'],0,29)));
         $pdf->SetXY(47.0,35);
@@ -74,7 +74,7 @@ function generateAlumniCard($studentId, $pdo)
         $pdf->Cell(15,4,$student['graduation_year']);
     }else{
         $pdf->SetXY(33.0, 32.4);
-        $pdf->Cell(15,4,'Course:');
+        $pdf->MultiCell(16,4,'Department: /Centre');
         $pdf->SetXY(47.0,32.4);
         $pdf->Cell(28,3.5,trim($student['department']));
         $pdf->SetXY(33.0, 36.0);
@@ -107,7 +107,7 @@ function generateAlumniCard($studentId, $pdo)
         'fontsize' => 8,
         'stretchtext' => 4
     );
-    $pdf->write1DBarcode($studentId,'C128',20,3.8,30,8,0.4,$style,'N');
+    $pdf->write1DBarcode($studentId,'C128',17,3.8,30,8,0.4,$style,'N');
 
     $pdf->SetFont('times','',5);
     $pdf->SetXY(58.0,3.8);

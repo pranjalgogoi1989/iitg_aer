@@ -6,49 +6,65 @@ $error = [];
 $successMessage = '';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    csrf_validate($_POST['csrf_token']);
-    
-    $first_name = $_POST["first_name"];
-    $last_name = $_POST["last_name"];
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
-    $confirm_password = trim($_POST['confirm_password']);
-    $mobile_no = trim($_POST['mobile_no']);
+  $userCaptcha = trim($_POST['captcha'] ?? '');
+  if (isset($_SESSION['captcha']) && strtoupper($userCaptcha) === $_SESSION['captcha']) {
+      
+  } else {
+      $error[]= "Invalid CAPTCHA.";
+  }
+  csrf_validate($_POST['csrf_token']);
+  
+  $first_name = $_POST["first_name"];
+  $last_name = $_POST["last_name"];
+  $email = trim($_POST['email']);
+  $password = trim($_POST['password']);
+  $confirm_password = trim($_POST['confirm_password']);
+  $mobile_no = trim($_POST['mobile_no']);
+	
+	
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $error[] = "Invalid email address";
+	} elseif (!preg_match('/^[a-zA-Z0-9._%+-]+@gmail\.com$/i', $email)) {
+    $error[] = "Only Gmail addresses are allowed";
+	} else {
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    if(empty($first_name) || empty($last_name) || empty($email) || empty($password) || empty($confirm_password) || empty($mobile_no)){
-        $error[] = "All fields are required";
-    }
     if ($user) {
         $error[] = "User already exists";
     }
-    if ($password !== $confirm_password) {
-        $error[] = "Passwords do not match";
-    }
-    if (strlen($password) < 8) {
-        $error[] = "Password must be at least 8 characters";
-    }
-    if(strlen($mobile_no) != 10){
-        $error[] = "Mobile number must be 10 digits";
-    }
+	}
 
-    if(empty($error)){
-        $stmt = $pdo->prepare("insert into users(email,name,role,password) values(?,?,?,?)");
-        $stmt->execute([$email,$first_name.' '.$last_name,'student',password_hash($password, PASSWORD_DEFAULT)]);
+  if(empty($first_name) || empty($last_name) || empty($email) || empty($password) || empty($confirm_password) || empty($mobile_no)){
+      $error[] = "All fields are required";
+  }
 
-        $secureCode = random_int(100000, 999999);
-        $stmt1=$pdo->prepare("insert into email_verification(email,verification_code) values(?,?)");
-        $stmt1->execute([$email,$secureCode]);
+  if ($password !== $confirm_password) {
+      $error[] = "Passwords do not match";
+  }
+  if (strlen($password) < 8) {
+      $error[] = "Password must be at least 8 characters";
+  }
+  if(strlen($mobile_no) != 10){
+      $error[] = "Mobile number must be 10 digits";
+  }
 
-        $stmt2=$pdo->prepare("INSERT INTO students(first_name,last_name,alt_email,mobile_number, email_verified) values(?,?,?,?,?)");
-        $stmt2->execute([$first_name,$last_name,$email,$mobile_no,'pending']);
-        $successMessage = "Registration successful";
-        $result = sendHTMLMail($email,$first_name,$successMessage,'templates/registration.html',['name' => $first_name,'email'=> $email,'password'=> $password]);
-        $result1 = sendHTMLMail($email,$first_name,'Email Verification','templates/email_verification.html',['name' => $first_name,'email'=> $email,'code' => $secureCode]);
-    }
+  if(empty($error)){
+      $stmt = $pdo->prepare("insert into users(email,name,role,password) values(?,?,?,?)");
+      $stmt->execute([$email,$first_name.' '.$last_name,'student',password_hash($password, PASSWORD_DEFAULT)]);
+
+      $secureCode = random_int(100000, 999999);
+      $stmt1=$pdo->prepare("insert into email_verification(email,verification_code) values(?,?)");
+      $stmt1->execute([$email,$secureCode]);
+
+      $stmt2=$pdo->prepare("INSERT INTO students(first_name,last_name,alt_email,mobile_number) values(?,?,?,?)");
+      $stmt2->execute([$first_name,$last_name,$email,$mobile_no]);
+      $successMessage = "Registration successful";
+      $result = sendHTMLMail($email,$first_name,$successMessage,'templates/registration.html',['name' => $first_name,'email'=> $email,'password'=> $password]);
+      $result1 = sendHTMLMail($email,$first_name,'Email Verification','templates/email_verification.html',['name' => $first_name,'email'=> $email,'code' => $secureCode]);
+  }
 }
 ?>
 
@@ -79,7 +95,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <!-- Helpers -->
     <script src="assets/vendor/js/helpers.js"></script>
     <script src="assets/js/config.js"></script>
-  </head>
+    <script>
+    if ( window.history.replaceState ) {
+      window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+</head>
 
   <body>
     <!-- Content -->
@@ -100,7 +121,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </a>
               </div>
               <!-- /Logo -->
-              <small class="mb-4">Please enter your details</small>
+              <div class="row"><div class="col-12 mb-3"><h5 class="text-center"><b>Alumni, Corporate and International Relations </b></h5></div><hr> </div>
+              
               <?php
               if (!empty($error)) {
                   echo '<div class="alert alert-danger" role="alert">';
@@ -121,35 +143,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
               ?>
               <form id="formAuthentication" class="mb-3" method="POST">
                 <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
-                <div class="mb-3">
+                <div class="row">
+                <div class="col-6 mb-3">
                     <label for="first_name" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter your first name" autofocus />
+                    <input type="text" class="form-control"  autocomplete="off" id="first_name" name="first_name" placeholder="Enter your first name" autofocus />
                 </div>
-                <div class="mb-3">
+                 <div class="col-6 mb-3">
                     <label for="last_name" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter your first name" autofocus required/>
+                    <input type="text" class="form-control" autocomplete="off" id="last_name" name="last_name" placeholder="Enter your first name" autofocus required/>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email ID</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your username" value="test@example.com" required />
                 </div>
-                <div class="mb-3 form-password-toggle">
+                 <div class="row">
+                <div class="col-12 mb-3">
+                    <label for="email" class="form-label">Email ID (Only Gmail addresses are allowed)</label>
+                    <input type="email" class="form-control" autocomplete="off" id="email" name="email" placeholder="Enter Gmail ID" pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" title="Only Gmail addresses are allowed" required>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-6 mb-3 form-password-toggle">
                   
                     <label class="form-label" for="password">Password</label>
-                    <input type="password" id="password" class="form-control" name="password" placeholder="********" aria-describedby="password" required/>
+                    <input type="password" id="password" autocomplete="off" class="form-control" name="password" placeholder="********" aria-describedby="password" required/>
                   
                 </div>
-                <div class="mb-3 form-password-toggle">
+                <div class="col-6 mb-3 form-password-toggle">
                   
                     <label class="form-label" for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="********" required/>
+                    <input type="password" id="confirm_password" autocomplete="off" class="form-control" name="confirm_password" placeholder="********" required/>
                   
+                </div>
                 </div>
                 <div class="mb-3 form-password-toggle">
                   
                     <label class="form-label" for="mobile_no">Mobile Number</label>
-                    <input type="text" id="mobile_no" class="form-control" name="mobile_no" required/>
+                    <input type="text" id="mobile_no" autocomplete="off" class="form-control" name="mobile_no" required/>
                   
+                </div>
+                <div class="mb-3">
+                  <p>
+                    <img src="config/captcha.php?<?php echo time(); ?>" alt="CAPTCHA">
+                    <a href="" onclick="location.reload(); return false;">Refresh</a>
+                  </p>
+                  <input type="text" class="form-control" name="captcha" placeholder="Enter CAPTCHA" required>
                 </div>
                 <div class="mb-3">
                   <button class="btn btn-primary d-grid w-100" type="submit">Sign Up</button>
@@ -157,9 +192,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
               </form>
               <div class="row">
                 <div class="col-sm-12">
-                    Already Signed Up? 
-                  <a href="index.php" class="btn btn-info d-grid w-100">Sign in</a>
-                </div>
+                    Already Signed Up? <a href="index.php" class="btn btn-sm btn-outline-primary"><b>Sign in</b></a>
+                    <br><strong>Note: </strong>On click of Sign in button, you will receive an email to validate your email id. In case you don't see our mail in your inbox. Kindly check for<b class="text-danger"> junk/spam folder.</b> </b>                </div>
               </div>
               
               

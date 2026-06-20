@@ -17,6 +17,10 @@ $stmt=$pdo->prepare('select * from users where email=?');
 $stmt->execute([$user_name]);
 $row = $stmt->fetch();
 
+$stmt3=$pdo->prepare('select * from students where alt_email=?');
+$stmt3->execute([$user_name]);
+$row3 = $stmt3->fetch();
+
 if(isset($_GET['roll_no'])){
     $stmt = $pdo->prepare("select * from applications where roll_no=?");
     $stmt->execute([$rollno]);
@@ -42,9 +46,15 @@ if(isset($_GET['roll_no'])){
 <div class="container-fluid wizard-container flex-grow-1 container-p-y">
     <div class="row">
         <div class="col-lg-12 mb-4 order-0">
+        
+        <?Php if($row3['profile_status']=='CMP'){?>
             <div class="card">
                 <div class="d-flex align-items-end row">
-                    <h2 class="mb-3">Application Form</h2>
+                 <div class="card-body">
+
+                     <div class="row"> <div class="col-sm-12 alert alert-primary"><h4> Apply New Card </h4> </div>  </div>
+
+                    
                     <ul class="nav nav-pills nav-fill mb-0" id="wizardTabs">
                         <li class="nav-item">
                             <button class="nav-link active" id="step1-tab" data-bs-toggle="pill" data-bs-target="#step1"> <?= ($rollno && $student['submission_stage']>='1') ? '✓ Step 1 - Basic Details' : 'Step 1 - Basic Details'?></button>
@@ -90,9 +100,20 @@ if(isset($_GET['roll_no'])){
                             </form>
                         </div>
                     </div>
-                    
+                   </div> 
                 </div>
             </div>
+            
+            <?Php }else{?>
+            <div class="card">
+            <div class="d-flex align-items-end row">
+                 <div class="card-body">
+                 <h4 class="alert alert-warning"> Please Update Your Profile First! <a href="profile.php" class="btn btn-sm btn-danger"><b>Click here</b></a></h4>
+                 </div>
+                 </div>
+            </div>
+            
+            <?Php }?>
         </div>
     </div>
 </div>

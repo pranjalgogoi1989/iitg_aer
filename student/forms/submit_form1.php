@@ -13,6 +13,7 @@ $student = $stmt->fetch();
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_validate($_POST['csrf_token']);
     $iitg_email = $_POST['iitg_email'];
+    $verification_code =$_POST['verification_code'];
     $roll_number = $_POST['roll_number'];
     $department = $_POST['department'];
     $programme = $_POST['programme'];
@@ -26,27 +27,38 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $por= $_POST['por'];
     $next_venture = $_POST['next_venture'];
 
-    $stmt=$pdo->prepare("select * from applications where roll_no=?");
-    $stmt->execute([$roll_number]);
-    $application = $stmt->fetch();
-    if(!empty($application)) {
-        $stmt=$pdo->prepare("update applications set iitg_email=?,roll_no=?,department=?,programme=?,joining_year=?,graduation_year=?,hostel=?,linkedin=?,whatsapp=?,por=?,submission_stage='1' where roll_no=?");
-        $stmt->execute([$iitg_email,$roll_number,$department,$programme,$joining_year,$graduation_year,$hostel,$linkedin,$whatsapp,$por,$roll_number]);
-        $successMessage = "Form updated successfully";
+    $stmt=$pdo->prepare("select * from email_verification where email=? and verification_code=? and email in (select email from alumni_list where email=? and roll_no=?) limit 1");
+    $stmt->execute([$iitg_email,$verification_code,$iitg_email,$roll_number]);
+    $alumni = $stmt->fetch();
+    if(empty($alumni)) {
         echo json_encode([
-            'status' => 'success',
-            'application_id' => $roll_number
+            'status' => 'error',
+            'message' => 'Invalid verification code or email or roll number'
         ]);
+        exit();
     }else{
-        
-        $photo= '/uploads/'.$roll_number.'/photo.jpg';
-        $stmt=$pdo->prepare("INSERT INTO applications(roll_no,salutation,first_name,last_name,iitg_email,alt_email,country_code,mobile_number,department,programme,joining_year,graduation_year,hostel,country,state,city,address,pincode,linkedin,whatsapp,por,organization,designation,next_venture,submission_stage) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        $stmt->execute([$roll_number,$student['salutation'],$student['first_name'],$student['last_name'],$iitg_email,$student['alt_email'],$student['country_code'],$student['mobile_number'],$department,$programme,$joining_year,$graduation_year,$hostel,$student['country'],$student['state'],$student['city'],$student['address'],$student['pincode'],$student['linkedin'],$whatsapp,$por,$organization,$designation,$next_venture,'1']);
-        $successMessage = "Form submitted successfully";
-        echo json_encode([
-            'status' => 'success',
-            'application_id' => $roll_number
-        ]);
+        $stmt=$pdo->prepare("select * from applications where roll_no=?");
+        $stmt->execute([$roll_number]);
+        $application = $stmt->fetch();
+        if(!empty($application)) {
+            $stmt=$pdo->prepare("update applications set iitg_email=?,roll_no=?,department=?,programme=?,joining_year=?,graduation_year=?,hostel=?,linkedin=?,whatsapp=?,por=?,submission_stage='1' where roll_no=?");
+            $stmt->execute([$iitg_email,$roll_number,$department,$programme,$joining_year,$graduation_year,$hostel,$linkedin,$whatsapp,$por,$roll_number]);
+            $successMessage = "Form updated successfully";
+            echo json_encode([
+                'status' => 'success',
+                'application_id' => $roll_number
+            ]);
+        }else{
+            
+            $photo= '/uploads/'.$roll_number.'/photo.jpg';
+            $stmt=$pdo->prepare("INSERT INTO applications(roll_no,salutation,first_name,last_name,iitg_email,alt_email,country_code,mobile_number,department,programme,joining_year,graduation_year,hostel,country,state,city,address,pincode,linkedin,whatsapp,por,organization,designation,next_venture,submission_stage) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            $stmt->execute([$roll_number,$student['salutation'],$student['first_name'],$student['last_name'],$iitg_email,$student['alt_email'],$student['country_code'],$student['mobile_number'],$department,$programme,$joining_year,$graduation_year,$hostel,$student['country'],$student['state'],$student['city'],$student['address'],$student['pincode'],$student['linkedin'],$whatsapp,$por,$organization,$designation,$next_venture,'1']);
+            $successMessage = "Form submitted successfully";
+            echo json_encode([
+                'status' => 'success',
+                'application_id' => $roll_number
+            ]);
+        }
     }
 }
 ?>

@@ -29,7 +29,9 @@ if(isset($_GET['roll_no'])){
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row">
+                     <div class="row mt-3"><div class="col-md-12 alert alert-info text-dark">Profile Information</div> </div>
+                    
+                        <div class="row mt-3">
                             <div class="col-md-4">
                                 <label for="salutation">Salutation</label>: <strong><?=$appl['salutation'] ?? ''?></strong>
                             </div>
@@ -40,7 +42,7 @@ if(isset($_GET['roll_no'])){
                                 <label for="last_name">Last Name</label>: <strong><?=$appl['last_name'] ?? ''?></strong>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-md-4">
                                 <label for="iitg_email">IITG Email ID</label>: <strong><?=$appl['iitg_email'] ?? ''?></strong>
                             </div>
@@ -51,7 +53,9 @@ if(isset($_GET['roll_no'])){
                                 <label for="roll_number">Roll Number</label>: <strong><?=$appl['roll_no'] ?? ''?></strong>
                             </div>
                         </div>
-                        <div class="row">
+                        
+                         <div class="row mt-3"><div class="col-md-12 alert alert-info text-dark">Education Information</div> </div>
+                         <div class="row mt-3">
                             <div class="col-md-4">
                                 <label for="department">Department</label>: <strong><?=$appl['department'] ?? ''?></strong>
                             </div>
@@ -62,7 +66,7 @@ if(isset($_GET['roll_no'])){
                                 <label for="hostel">Hostel</label>: <strong><?=$appl['hostel'] ?? ''?></strong>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-md-4">
                                 <label for="joining_year">Year of Joining</label>: <strong><?=$appl['joining_year'] ?? ''?></strong>
                             </div>
@@ -70,7 +74,7 @@ if(isset($_GET['roll_no'])){
                                 <label for="graduation_year">Year of Graduation</label>: <strong><?=$appl['graduation_year'] ?? ''?></strong>
                             </div>
                         </div>
-                        <div class="row">
+                         <div class="row mt-3">
                             <div class="col-md-4">
                                 <label for="country_code">Country Code</label>: <strong><?=$appl['country_code'] ?? ''?></strong>
                             </div>
@@ -81,7 +85,9 @@ if(isset($_GET['roll_no'])){
                                 <label for="whatsapp">Whatsapp</label>: <strong><?=$appl['whatsapp'] ?? ''?></strong>
                             </div>
                         </div>
-                        <div class="row">
+                        
+                         <div class="row mt-3"><div class="col-md-12 alert alert-info text-dark">Address Information</div> </div>
+                         <div class="row mt-3">
                             <div class="col-md-4">
                                 <label for="city">City/Village</label>: <strong><?=$appl['city'] ?? ''?></strong>
                             </div>
@@ -92,7 +98,7 @@ if(isset($_GET['roll_no'])){
                                 <label for="portfolio">State</label>: <strong><?=$appl['state'] ?? ''?></strong>
                             </div>
                         </div>
-                        <div class="row">
+                         <div class="row mt-3">
                             <div class="col-md-4">
                                 <label for="address">Address</label>: <strong><?=$appl['address'] ?? ''?></strong>
                             </div>
@@ -100,12 +106,12 @@ if(isset($_GET['roll_no'])){
                                 <label for="pincode">Pincode</label>: <strong><?=$appl['pincode'] ?? ''?></strong>
                             </div>
                         </div>
-                        <div class="row">
+                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <label for="linkedin">LinkedIn Profile Address</label>: <strong><?=$appl['linkedin'] ?? ''?></strong>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-md-4">
                                 <label for="organization">Organization</label>: <strong><?=$appl['organization'] ?? ''?></strong>
                             </div>
@@ -113,18 +119,20 @@ if(isset($_GET['roll_no'])){
                                 <label for="designation">Designation</label>: <strong><?=$appl['designation'] ?? ''?></strong>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-md-12">
                                 <label for="por">Were you associated with any group (IITG Board/Club/HMC/Student Body)? If yes, write your Position of Responsibility (POR)</label>: <strong><?=$appl['por'] ?? ''?></strong>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-md-12">
                                 <label for="next_venture">Details of your next venture or destination if known(Current Job, Position, Name of Company etc.)</label>: <strong><?=$appl['next_venture'] ?? ''?></strong>
                             </div>
                         </div>
+                        
+                         <div class="row mt-3"><div class="col-md-12 alert alert-info text-dark">Documents Upload</div> </div>
 
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-md-3">
                                 <label for="photo">Photo</label>:<br>
                                 <img src="<?=$appl['photo'] ?? ''?>" alt="Photo" width="100px" height="100px">

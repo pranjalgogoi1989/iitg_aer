@@ -56,6 +56,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pincode = trim($_POST['pincode']);
     $linkedin = trim($_POST['linkedin']);
     $whatsapp = trim($_POST['whatsapp']);
+	$status='CMP';
 
     if (empty($salutation)) {
         $errors[] = 'Salutation is required';
@@ -86,8 +87,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     
 
     if(empty($errors)) {
-        $stmt2=$pdo->prepare("update students set salutation=?,country_code=?,mobile_number=?,country=?,state=?,city=?,address=?,pincode=?,linkedin=?,whatsapp=? where alt_email=?");
-        $stmt2->execute([$salutation,$country_code,$mobile_number,$country,$state,$city,$address,$pincode,$linkedin,$whatsapp,$alt_email]);
+        $stmt2=$pdo->prepare("update students set salutation=?,country_code=?,mobile_number=?,country=?,state=?,city=?,address=?,pincode=?,profile_status=?, linkedin=?, whatsapp=? where alt_email=?");
+        $stmt2->execute([$salutation,$country_code,$mobile_number,$country,$state,$city,$address,$pincode,$status,$linkedin,$whatsapp,$alt_email]);
         $successMessage = "Profile updated successfully";
     }   
 }
@@ -107,8 +108,10 @@ $student = $stmt->fetch();
             <div class="card">
                 <div class="d-flex align-items-end row">
                     <div class="col-sm-12">
-                        <h3 class="text-center">My Profile</h3>
                         <div class="card-body">
+                        
+                         <div class="row"> <div class="col-sm-12 alert alert-primary"><h4> Profile Information </h4> </div>  </div>
+                        
                             <center>
                             <?php
                             if(!empty($errors)) {
@@ -117,7 +120,7 @@ $student = $stmt->fetch();
                                 }
                             }
                             if($successMessage) {
-                                echo '<div class="alert alert-success" role="alert">'.$successMessage.'</div>';
+                                echo '<div class="alert alert-success text-dark" role="alert"><b>'.$successMessage.'</b></div>';
                             }
                             ?>
                             </center>
@@ -144,14 +147,20 @@ $student = $stmt->fetch();
                                     <label for="last_name">Last Name</label>
                                     <input type="text" name="last_name" id="last_name" class="form-control" value="<?= $student['last_name'] ?>" readonly>
                                 </div>
+                                 <div class="col-sm-4">
+                                        <label for="mobile">Mobile Number <span class="text-danger">*</span></label>
+                                        <input type="text" name="mobile" id="mobile" class="form-control" value="<?= $student['mobile_number'] ?>">
+                                    </div>
+                                   <div class="col-sm-4">
+                                        <label for="alt_email">Alternate Email ID : </label> <input type="email" name="alt_email" id="alt_email" class="form-control" value="<?= $student['alt_email'] ?? $_SESSION['user_name'] ?>" readonly>
+                                    </div>                                     
+                                </div>
+
+                                <div class="row mt-3">  
+                                    <div class="col-sm-12 alert alert-primary"><h4> Permanent Address </h4> </div>  
                                 </div>
                                 <div class="row">
-                                
-                                    <div class="col-sm-6">
-                                        <label for="alt_email">Alternate Email ID : </label> <input type="email" name="alt_email" id="alt_email" class="form-control" value="<?= $student['alt_email'] ?? $_SESSION['user_name'] ?>" readonly>
-                                        
-                                    </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <label for="country_code">Country Code <span class="text-danger">*</span></label>
                                         <select name="country_code" id="country_code" class="form-control form-select">
                                         <option value="" selected> - Select Country Code - </option>
@@ -169,15 +178,9 @@ $student = $stmt->fetch();
                                         ?>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label for="mobile">Mobile Number <span class="text-danger">*</span></label>
-                                        <input type="text" name="mobile" id="mobile" class="form-control" value="<?= $student['mobile_number'] ?>">
-                                    </div>
                                     <div class="col-sm-4">
                                         <label for="counry">Country <span class="text-danger">*</span></label>
-                                        <select name="country" id="country" class="form-control form-select">
+                                        <select name="country" id="country" class="form-control form-select select2">
                                         <option value="" selected> - Select Country - </option>
                                         <?php
                                         $stmt = $pdo->prepare("SELECT * FROM countries");
@@ -199,30 +202,31 @@ $student = $stmt->fetch();
                                     </div>
                                 </div>
                                 <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="city">City/Village <span class="text-danger">*</span></label>
-                                    <input type="text" name="city" id="city" class="form-control" value="<?= $student['city'] ?>">
+                                    <div class="col-sm-4">
+                                        <label for="city">City/Village <span class="text-danger">*</span></label>
+                                        <input type="text" name="city" id="city" class="form-control" value="<?= $student['city'] ?>">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="address">House/Building No. Street Name and Locality/Area <span class="text-danger">*</span></label>
+                                        <input type="text" name="address" id="address" class="form-control" value="<?= $student['address'] ?>">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="pincode">Pincode <span class="text-danger">*</span></label>
+                                        <input type="text" name="pincode" id="pincode" class="form-control" value="<?= $student['pincode'] ?>">
+                                    </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <label for="address">House/Building No. Street Name and Locality/Area <span class="text-danger">*</span></label>
-                                    <input type="text" name="address" id="address" class="form-control" value="<?= $student['address'] ?>">
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="pincode">Pincode <span class="text-danger">*</span></label>
-                                    <input type="text" name="pincode" id="pincode" class="form-control" value="<?= $student['pincode'] ?>">
-                                </div>
+                               <div class="row mt-3">  
+                                    <div class="col-sm-12 alert alert-primary"><h4> Social and Communication Details </h4> </div>  
                                 </div>
                                 <div class="row">
-                                <div class="col-sm-6">
-                                    <label for="linkedin">LinkedIn Profile Address</label>
-                                    <input type="text" name="linkedin" id="linkedin" class="form-control" value="<?= $student['linkedin'] ?>">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="whatsapp">Whatsapp <span class="text-danger">*</span></label>
-                                    <input type="text" name="whatsapp" id="whatsapp" class="form-control" value="<?= $student['whatsapp'] ?>">
-                                </div>
-                                
-
+                                    <div class="col-sm-4">
+                                        <label for="linkedin">Linked In Profile Address</label>
+                                        <input type="text" name="linkedin" id="linkedin" class="form-control" value="<?= $student['linkedin'] ?>">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="whatsapp">Whatsapp Number</label>
+                                        <input type="text" name="whatsapp" id="whatsapp" class="form-control" value="<?= $student['whatsapp'] ?>">
+                                    </div>
                                 </div>
                                 
                                 <br>

@@ -21,11 +21,61 @@
   <link rel="stylesheet" href="/assets/css/demo.css" />
   <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
   <link rel="stylesheet" href="/assets/vendor/libs/apex-charts/apex-charts.css" />
-  <link rel="stylesheet" href="/assets/css/datatables.min.css" />
   <script src="/assets/js/jquery-3.7.1.js"></script>
-  <script src="/assets/js/datatables.min.js"></script>
   <script src="/assets/vendor/js/helpers.js"></script>
-<script src="/assets/js/config.js"></script>
+  <script src="/assets/js/config.js"></script>
+  	<link type="text/css" rel="stylesheet" href="/datatable/buttons.dataTables.min.css">
+     <link type="text/css" rel="stylesheet" href="/datatable/jquery.dataTables.min.css">
+
+<script type="text/javascript" language="javascript" src="/datatable/jquery.dataTables.min.js"></script>
+	    <script type="text/javascript" language="javascript" src="/datatable/dataTables.buttons.min.js"></script>
+	    <script type="text/javascript" language="javascript" src="/datatable/buttons.flash.min.js"></script>
+	    <script type="text/javascript" language="javascript" src="/datatable/jszip.min.js"></script>
+	    <script type="text/javascript" language="javascript" src="/datatable/pdfmake.min.js"></script>
+	    <script type="text/javascript" language="javascript" src="/datatable/vfs_fonts.js"></script>
+	    <script type="text/javascript" language="javascript" src="/datatable/buttons.html5.min.js"></script>
+	    <script type="text/javascript" language="javascript" src="/datatable/buttons.print.min.js"></script>
+	    <script type="text/javascript" class="init">
+	
+$(document).ready(function() {
+	$('#datatable').DataTable({
+        dom: 'Bfrtip',
+        pageLength: 50,
+        deferRender: true,
+        ordering: true,
+        responsive: true,
+        buttons: ['csv', 'excel']
+    });
+	  $('.select2').select2({
+        width: '100%',
+		allowClear: true
+    });
+	
+	$('#country_code').select2({
+        width: '100%',
+        placeholder: 'Select Code',
+        allowClear: true
+    });
+
+    $('#country').select2({
+        width: '100%',
+        placeholder: 'Select Country',
+        allowClear: true
+    });
+	
+} );
+</script>
+
+<link href="/select/login.min.css" rel="stylesheet" />
+<script src="/select/select2.min.js"></script>
+<script>
+    if ( window.history.replaceState ) {
+      window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
+
+
 </head>
 
 <body>

@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../security/csrf.php';
 
 $application_id= $_POST['application_id'];
+$transaction_ref_no= $_POST['transaction_ref_no'];
+$transaction_date = $_POST['transaction_date'];
 $stmt=$pdo->prepare('select * from applications where roll_no=? limit 1');
 $stmt->execute([$application_id]);
 $student = $stmt->fetch();
@@ -49,6 +51,9 @@ foreach ($upload_files as $file) {
         }
     }
 }
+$stmt = $pdo->prepare("update applications set transaction_ref_no=?,transaction_date=? where roll_no=?");
+$stmt->execute([$transaction_ref_no,$transaction_date,$student["roll_no"]]);
+
 echo json_encode([
     'status' => 'success',
     'upload_status' => $uploadStatus,
